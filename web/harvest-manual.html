@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" class="booting">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>ENTROPY-FORGE EF-1 · technical manual</title>
+<!-- tab icon: "byte grid" — the POOL inspector view in miniature. Cell shades are the first
+     16 bytes of SHA-256("entropy-forge")=75adba22…, quantized to the four chassis tones; the
+     hottest byte (0xE9) burns signal. Inline data URIs keep the page single-file; source
+     SVGs live in favicons/. PNG first = Safari fallback. -->
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACPSURBVFhH7ZMxCoAwDEU9g4tIj+RRBAfv6SJeQupY6Fj5Q0BoIrikATO8ofnQvATSDWMoLbEjkHNSxa7AfmwsyJZ1rnirx+usoD4u4AJ2BbQQBbjpgZShLk1Kfz+hPvR2AReoBLQQBbhpALKv9y5tDLiAC4gCWogCcepZkKlsgGsOkLnAPwS0sCfQisYCodxRpKhYyZY8EgAAAABJRU5ErkJggg=="/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMiAzMic+PHJlY3QgeD0nMScgeT0nMScgd2lkdGg9JzMwJyBoZWlnaHQ9JzMwJyBmaWxsPScjRjdGN0Y0JyBzdHJva2U9JyMxNzE5MUInIHN0cm9rZS13aWR0aD0nMicvPjxyZWN0IHg9JzQnIHk9JzQuMCcgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNEMkQ0Q0QnLz48cmVjdCB4PScxMC4yJyB5PSc0JyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nIzZFNzI2QicvPjxyZWN0IHg9JzE2LjQnIHk9JzQnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjNkU3MjZCJy8+PHJlY3QgeD0nMjIuNicgeT0nNCcgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNFQkVDRTknLz48cmVjdCB4PSc0JyB5PScxMC4yJyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nI0QyRDRDRCcvPjxyZWN0IHg9JzEwLjInIHk9JzEwLjInIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRDJENENEJy8+PHJlY3QgeD0nMTYuNCcgeT0nMTAuMicgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNFQkVDRTknLz48cmVjdCB4PScyMi42JyB5PScxMC4yJyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nIzE3MTkxQicvPjxyZWN0IHg9JzQnIHk9JzE2LjQnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRUJFQ0U5Jy8+PHJlY3QgeD0nMTAuMicgeT0nMTYuNCcgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyM2RTcyNkInLz48cmVjdCB4PScxNi40JyB5PScxNi40JyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nI0VCRUNFOScvPjxyZWN0IHg9JzIyLjYnIHk9JzE2LjQnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRDJENENEJy8+PHJlY3QgeD0nNCcgeT0nMjIuNicgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNFQjRCMTInLz48cmVjdCB4PScxMC4yJyB5PScyMi42JyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nIzZFNzI2QicvPjxyZWN0IHg9JzE2LjQnIHk9JzIyLjYnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRUJFQ0U5Jy8+PHJlY3QgeD0nMjIuNicgeT0nMjIuNicgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNEMkQ0Q0QnLz48L3N2Zz4="/>
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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"/>
+<style>
+  :root{
+    --chassis:#EBECE9; --module:#F7F7F4; --ink:#17191B; --dim:#6E726B;
+    --hair:#D2D4CD; --signal:#EB4B12;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--chassis);color:var(--ink);font-family:var(--mono);
+       padding:max(16px,env(safe-area-inset-top)) 14px max(32px,env(safe-area-inset-bottom));
+       max-width:560px;margin:0 auto;font-size:12px;line-height:1.65;
+       zoom:1.25}   /* manual reads ~25% larger without touching browser zoom */
+  header{border:1px solid var(--ink);background:var(--module);padding:14px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .model{font-size:10px;letter-spacing:.22em;color:var(--dim)}
+  h1{font:700 22px/1.1 var(--mono);letter-spacing:-.02em;margin-top:8px}
+  .sub{color:var(--dim);font-size:11px;margin-top:8px}
+  .navlink{display:block;margin-top:12px;padding-top:10px;border-top:1px solid var(--hair);
+    font-size:10px;letter-spacing:.12em;color:var(--ink);text-decoration:none}
+  .navlink:active{color:var(--signal)}
+  section{border:1px solid var(--ink);border-top:0;background:var(--module)}
+  .cap{display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+       padding:9px 14px;border-bottom:1px solid var(--hair)}
+  .cap b{font-size:10px;letter-spacing:.2em}
+  .cap b i{font-style:normal;color:var(--dim);margin-right:8px}
+  .cap span{font-size:10px;color:var(--dim)}
+  .body{padding:12px 14px 14px;color:#33362F}
+  .body b{color:var(--ink)} .body em{font-style:normal;color:var(--signal)}
+  .body p+p{margin-top:9px}
+  svg{display:block;width:100%;height:auto;margin:10px 0 2px}
+  .fig{font-size:9px;color:var(--dim);letter-spacing:.08em;margin-top:2px}
+  /* svg schematic classes */
+  .bx{fill:var(--module);stroke:var(--ink);stroke-width:1.5}
+  .bxs{fill:var(--module);stroke:var(--signal);stroke-width:1.5}
+  .bxi{fill:var(--ink)}
+  .tl{font:600 15px var(--mono);fill:var(--ink)}
+  .tls{font:600 15px var(--mono);fill:var(--signal)}
+  .tlw{font:600 15px var(--mono);fill:var(--module)}
+  .td{font:400 12px var(--mono);fill:var(--dim)}
+  .ln{stroke:var(--ink);stroke-width:1.5;fill:none}
+  .lns{stroke:var(--signal);stroke-width:1.5;fill:none}
+  .lnh{stroke:var(--hair);stroke-width:1;fill:none}
+  .digit{font:700 34px var(--mono);fill:var(--ink)}
+  .digitS{font:700 34px var(--mono);fill:var(--signal)}
+  /* avalanche demo */
+  input[type=text]{width:100%;padding:11px;border:1px solid var(--ink);background:#FDFDFB;
+    font:400 13px var(--mono);color:var(--ink);border-radius:0;outline:none}
+  input[type=text]:focus{border-color:var(--signal)}
+  .bitgrid{display:grid;grid-template-columns:repeat(32,1fr);gap:2px;margin-top:10px}
+  .bit{aspect-ratio:1;background:var(--hair)}
+  .bit.flip{background:var(--signal)}
+  .avmeta{display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--dim)}
+  .avmeta b{color:var(--ink)}
+  .hexline{font-size:10px;word-break:break-all;color:var(--dim);margin-top:8px;line-height:1.7}
+  .hexline b{color:var(--ink);font-weight:400}
+  .srow{display:grid;grid-template-columns:118px 1fr auto;gap:10px;align-items:baseline;
+    padding:7px 0;border-bottom:1px solid var(--hair);font-size:10px}
+  .srow:last-of-type{border-bottom:0}
+  .srow span:first-child{color:var(--ink);font-weight:700;font-size:9px;letter-spacing:.04em}
+  .srow.shead span{color:var(--dim);font-weight:700;font-size:8px;letter-spacing:.16em}
+  .srow.py span:first-child::after{content:" ·PY";color:var(--signal);font-size:8px}
+  .srow a{color:var(--ink);text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+  .srow a:active{color:var(--signal)}
+  /* ---------- power-on self-test (boot) ----------
+     Same case-and-seam boot as the instrument page; shares its once-per-session
+     gate, so crossing between the two pages never re-runs it. Checks are real
+     (SHA-256 test vector, CSPRNG probe, live jitter sample, document census);
+     only the reveal cadence is presentation. Any key/tap skips. */
+  html.booting header,html.booting section{animation-play-state:paused}
+  #post{position:fixed;inset:0;z-index:90;display:flex;align-items:center;
+    justify-content:center;padding:24px;zoom:.8}   /* cancel the body's 1.25 zoom so the fixed boot splash stays viewport-sized (1.25×.8=1) */
+  #post[hidden]{display:none}
+  .post-half{position:absolute;left:0;width:100%;height:50%;background:var(--chassis);
+    transition:transform .55s cubic-bezier(.76,0,.24,1)}
+  .post-top{top:0;border-bottom:1px solid var(--ink)}
+  .post-bot{bottom:0;border-top:1px solid var(--ink)}
+  #post.open .post-top{transform:translateY(-101%)}
+  #post.open .post-bot{transform:translateY(101%)}
+  .post-card{position:relative;width:min(380px,92vw);border:1px solid var(--ink);
+    background:var(--module);padding:15px 16px 13px;transition:opacity .16s ease}
+  #post.open .post-card{opacity:0}
+  .post-title{font:700 10px/1 var(--mono);letter-spacing:.2em;margin-top:12px;
+    padding-top:10px;border-top:1px solid var(--hair)}
+  .post-line{display:flex;align-items:baseline;gap:9px;margin-top:8px;
+    font-size:10px;letter-spacing:.04em;color:var(--dim);opacity:0}
+  .post-line.on{opacity:1;animation:boot .22s ease}
+  .post-line .led{flex:none;width:7px;height:7px;border:1.5px solid var(--ink);
+    align-self:center;background:transparent}
+  .post-line.on .led{background:var(--ink)}
+  .post-line b{font-weight:700;color:var(--ink);letter-spacing:.08em}
+  .post-line span{margin-left:auto;text-align:right}
+  #postcv{display:block;width:100%;height:auto;margin:12px 0 0}
+  .post-digest{margin-top:7px;font-size:9px;line-height:1.6;color:var(--signal);
+    word-break:break-all;min-height:29px;visibility:hidden}
+  .post-digest.on{visibility:visible}
+  .post-skip{margin-top:10px;padding-top:9px;border-top:1px solid var(--hair);
+    font-size:9px;letter-spacing:.14em;color:var(--dim)}
+  /* v2 minimal boot: same real checks, one verdict line instead of the list.
+     POST_STYLE in the boot script picks "min" (this) or "full" (v1 checklist). */
+  #post.min .post-title,#post.min #postlines,#post.min .post-digest,#post.min .post-skip{display:none}
+  #post.min #postcv{margin-top:14px}
+  .post-status{display:none;justify-content:space-between;align-items:baseline;gap:10px;
+    margin-top:11px;font:700 10px/1 var(--mono);letter-spacing:.18em;color:var(--dim)}
+  #post.min .post-status{display:flex}
+  .post-status b{color:var(--signal)}
+  header,section{animation:boot .3s ease both}
+  section:nth-of-type(1){animation-delay:.04s} section:nth-of-type(2){animation-delay:.08s}
+  section:nth-of-type(3){animation-delay:.12s} section:nth-of-type(4){animation-delay:.16s}
+  section:nth-of-type(5){animation-delay:.20s} section:nth-of-type(6){animation-delay:.24s}
+  section:nth-of-type(7){animation-delay:.28s}
+  section:nth-of-type(8){animation-delay:.32s}
+  section:nth-of-type(9){animation-delay:.36s}
+  @keyframes boot{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .bit{transition:background .15s ease}
+  #avcount{transition:color .3s ease}
+  .flow{stroke:var(--ink);stroke-width:1.5;fill:none;stroke-dasharray:5 8;animation:flowmv 1.5s linear infinite}
+  .flows{stroke:var(--signal);stroke-width:1.5;fill:none;stroke-dasharray:5 8;animation:flowmv 1.5s linear infinite}
+  @keyframes flowmv{to{stroke-dashoffset:-13}}
+  @media (prefers-reduced-motion:reduce){
+    header,section{animation:none} .bit{transition:none}
+    .flow,.flows{animation:none}
+    #post{display:none}
+  }
+  @media (max-width:640px){ body{padding:10px 10px 28px;font-size:11px}
+    h1{font-size:19px} .body{padding:10px 11px 12px} }
+</style>
+</head>
+<body>
+<div id="post" aria-hidden="true">
+  <div class="post-half post-top"></div>
+  <div class="post-half post-bot"></div>
+  <div class="post-card">
+    <div class="row"><span class="model">ENTROPY-FORGE</span><span class="model">MODEL EF-1</span></div>
+    <div class="post-title">POWER-ON SELF-TEST · MANUAL</div>
+    <div id="postlines">
+      <div class="post-line"><i class="led"></i><b>SHA-256 CORE</b><span id="pl-sha">—</span></div>
+      <div class="post-line"><i class="led"></i><b>CSPRNG</b><span id="pl-rng">—</span></div>
+      <div class="post-line"><i class="led"></i><b>CLOCK JITTER</b><span id="pl-jit">—</span></div>
+      <div class="post-line"><i class="led"></i><b>DOC MODULES</b><span id="pl-doc">—</span></div>
+      <div class="post-line"><i class="led"></i><b>AVALANCHE GRID</b><span id="pl-av">—</span></div>
+    </div>
+    <canvas id="postcv" width="348" height="44"></canvas>
+    <div class="post-digest" id="postdigest"></div>
+    <div class="post-status"><span>POWER-ON SELF-TEST</span><span id="poststat">RUNNING</span></div>
+    <div class="post-skip">TAP / ANY KEY — SKIP</div>
+  </div>
+</div>
+<script>
+/* boot gate: same-session revisits (either page) and reduced-motion skip before first paint */
+try{
+  if(sessionStorage.getItem("ef1-post")==="1"||matchMedia("(prefers-reduced-motion:reduce)").matches){
+    document.getElementById("post").hidden=true;
+    document.documentElement.classList.remove("booting");
+  }
+}catch(e){ document.documentElement.classList.remove("booting"); }
+</script>
+<header>
+  <div class="row"><span class="model">ENTROPY-FORGE</span><span class="model">MODEL EF-1</span></div>
+  <h1>technical manual</h1>
+  <p class="sub">How thirteen public data feeds and one finger become 32 bytes of conditioned randomness — and why that output still isn't a key.</p>
+  <a class="navlink" href="harvest-theater.html">← BACK TO THE INSTRUMENT</a>
+</header>
+
+<section>
+  <div class="cap"><b><i>01</i>THE PIPELINE</b><span>signal path</span></div>
+  <div class="body">
+    <p>Every harvest round follows one signal path. Sources are fetched in parallel; each sample is inspected, reduced to its unpredictable digits, and absorbed into a single pool. Output is only ever a hash of that entire pool.</p>
+    <svg viewBox="0 0 1060 430" role="img" aria-label="Pipeline schematic">
+      <rect class="bx" x="20" y="20" width="200" height="86"/>
+      <text class="tl" x="40" y="55">13 SOURCES</text>
+      <text class="td" x="40" y="82">quakes · tides · buses…</text>
+      <rect class="bx" x="290" y="20" width="180" height="86"/>
+      <text class="tl" x="310" y="55">EXTRACT</text>
+      <text class="td" x="310" y="82">trailing digits</text>
+      <rect class="bx" x="540" y="20" width="180" height="86"/>
+      <text class="tl" x="560" y="55">HEALTH</text>
+      <text class="td" x="560" y="82">stale? → 0 bits</text>
+      <rect class="bx" x="790" y="20" width="180" height="86"/>
+      <text class="tl" x="810" y="55">POOL</text>
+      <text class="td" x="810" y="82">domain ledger</text>
+      <path class="flow" d="M220 63 H290 M470 63 H540 M720 63 H790"/>
+      <path class="flow" d="M880 106 V180"/>
+      <rect class="bxi" x="770" y="180" width="220" height="70"/>
+      <text class="tlw" x="795" y="212">SHA-256 MIX</text>
+      <text class="td" x="795" y="236" fill="#B6B9B0">every bit ← every input</text>
+      <path class="flow" d="M880 250 V320"/>
+      <rect class="bx" x="720" y="320" width="320" height="86"/>
+      <text class="tl" x="745" y="355">OUTPUT · NON-SECRET</text>
+      <text class="td" x="745" y="382">draws · nonces · simulations</text>
+      <!-- operator + jitter feeding the pool from the left -->
+      <rect class="bxs" x="290" y="180" width="240" height="70"/>
+      <text class="tls" x="312" y="212">OPERATOR PAD</text>
+      <text class="td" x="312" y="236">private strokes</text>
+      <rect class="bx" x="20" y="180" width="220" height="70"/>
+      <text class="tl" x="42" y="212">LOCAL JITTER</text>
+      <text class="td" x="42" y="236">scheduler noise</text>
+      <path class="flows" d="M530 215 H770"/>
+      <path class="flow" d="M240 215 H290"/>
+    </svg>
+    <div class="fig">FIG.1 — the public-entropy signal path. Orange = the only private input.</div>
+    <p><b>Parity note:</b> the browser instrument implements extraction, the freshness test and SHA-256 conditioning. The Python pipeline adds an adaptive-proportion health test and a Von Neumann debiasing stage — same architecture, fuller plumbing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>02</i>TWO KINDS OF RANDOM</b><span>the core idea</span></div>
+  <div class="body">
+    <p>"Random" hides two different properties. <b>Unpredictability</b>: no one can compute the value in advance. <b>Secrecy</b>: no one else can learn the value afterwards. Statistics tests measure the first. Keys require <em>both</em>.</p>
+    <svg viewBox="0 0 1060 560" role="img" aria-label="Unpredictability vs secrecy scatter">
+      <path class="ln" d="M90 480 H1010 M90 480 V40"/>
+      <text class="td" x="430" y="530">UNPREDICTABILITY →</text>
+      <text class="td" x="30" y="270" transform="rotate(-90 30 270)">SECRECY →</text>
+      <path class="lnh" d="M90 260 H1010 M550 480 V40"/>
+      <!-- public sources: high unpredictability, near-zero secrecy -->
+      <circle class="ln" cx="620" cy="450" r="9"/><text class="td" x="638" y="456">weather</text>
+      <circle class="ln" cx="740" cy="440" r="9"/><text class="td" x="758" y="446">quakes</text>
+      <circle class="ln" cx="880" cy="430" r="9"/><text class="td" x="898" y="436">block hash</text>
+      <circle class="ln" cx="960" cy="455" r="9"/><text class="td" x="905" y="415">drand</text>
+      <!-- private-ish -->
+      <circle fill="#EB4B12" cx="560" cy="180" r="9"/><text class="tls" x="578" y="186">local jitter</text>
+      <circle fill="#EB4B12" cx="660" cy="110" r="9"/><text class="tls" x="678" y="116">operator pad</text>
+      <circle fill="#17191B" cx="950" cy="70" r="11"/><text class="tl" x="800" y="76" font-size="14">OS CSPRNG</text>
+    </svg>
+    <div class="fig">FIG.2 — every remote lane lives on the floor of this chart. That floor is why the receipt says NON-SECRET, and why wallet mode is built on the top-right dot.</div>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>03</i>EXTRACTION</b><span>where the jitter lives</span></div>
+  <div class="body">
+    <p>A pressure reading like <b>1002.4 hPa</b> is mostly predictable — any forecast gets you the "1002". The chaos hides in the tail. So the extractor throws the confident digits away and keeps only the last ones, from every field, across every source.</p>
+    <svg viewBox="0 0 1060 150" role="img" aria-label="Trailing digit extraction">
+      <text class="digit" x="40" y="70">1 0 0</text>
+      <rect class="bxs" x="188" y="34" width="118" height="50"/>
+      <text class="digitS" x="200" y="70">2 . 4</text>
+      <text class="digit" x="400" y="70">M 2 . 3</text>
+      <rect class="bxs" x="512" y="34" width="52" height="50"/>
+      <text class="digitS" x="522" y="70">1</text>
+      <text class="digit" x="660" y="70">4 1 7</text>
+      <rect class="bxs" x="806" y="34" width="118" height="50"/>
+      <text class="digitS" x="818" y="70">6 3</text>
+      <text class="td" x="40" y="125">pressure</text>
+      <text class="td" x="400" y="125">magnitude</text>
+      <text class="td" x="660" y="125">mempool count</text>
+    </svg>
+    <div class="fig">FIG.3 — boxed digits enter the pool; the rest never do.</div>
+    <p>One discipline applies on top: <b>the one-clock rule</b>. Nearly every API also returns a "now" timestamp. If every lane extracted its clock digits, thirteen "independent" sources would secretly share one input — your clock — and the independence claim would collapse. Exactly one lane (quakes) may extract time; all others strip it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>04</i>HEALTH + THE HAIRCUT</b><span>trust nothing</span></div>
+  <div class="body">
+    <p>A lying source is worse than a dead one. Before crediting a sample, the pool checks it: a fetch identical to the previous one (a CDN cache hit, a stale feed) is credited <em>zero bits</em>. A dead lane simply contributes nothing — the pipeline never crashes, it just gets thinner.</p>
+    <p>Diversity is enforced the same way. Ten weather feeds are one source wearing ten hats, so no single <b>domain</b> may account for more than 40% of the pool's credited entropy, and the pool refuses to emit below five domains:</p>
+    <svg viewBox="0 0 1060 130" role="img" aria-label="Domain haircut bar">
+      <rect class="bx" x="20" y="30" width="1020" height="46"/>
+      <rect fill="#17191B" x="20" y="30" width="408" height="46"/>
+      <rect fill="none" stroke="#EB4B12" stroke-width="1.5" stroke-dasharray="5 4" x="428" y="30" width="200" height="46"/>
+      <rect fill="#6E726B" x="628" y="30" width="170" height="46"/>
+      <rect fill="#B6B9B0" x="798" y="30" width="130" height="46"/>
+      <text class="tlw" x="40" y="59">atmosphere · capped 40%</text>
+      <text class="tls" x="442" y="59" font-size="13">excess → 0</text>
+      <text class="td" x="20" y="110">solid = credited · dashed = atmosphere entropy above the cap, discarded</text>
+    </svg>
+    <div class="fig">FIG.4 — the 40% domain haircut.</div>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>05</i>MIXING</b><span>not merging, not stitching</span></div>
+  <div class="body">
+    <p>Samples are never laid side by side. Each is hashed with its source name into one pool, and the output is <b>SHA-256 over the entire pool</b> — so every output bit depends on every input bit from every lane simultaneously. This is the avalanche effect. Test it:</p>
+    <input type="text" id="avin" value="1002.4 hPa" autocomplete="off" spellcheck="false" aria-label="avalanche input">
+    <div class="bitgrid" id="avgrid"></div>
+    <div class="avmeta"><span>flipped last character → <b id="avcount">…</b> of 256 output bits changed</span><span>≈50% = ideal</span></div>
+    <div class="hexline" id="avhex"></div>
+    <div class="fig" style="margin-top:8px">FIG.5 — live: SHA-256 of your text vs. the same text with one character changed. Orange cells are bits that differ.</div>
+    <p><b>Formats are lenses, not entropy.</b> HEX, Base64, UUID v4, integers, dice and lotto picks on the instrument are all deterministic encodings of the <em>same</em> 32-byte emission — integer-like formats via rejection sampling, so no modulo bias. Switching format never re-emits; the transcript always verifies the raw bytes.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>06</i>WALLET MODE</b><span>the full toolchain</span></div>
+  <div class="body">
+    <p>Everything above produces NON-SECRET output, because every remote lane sits on the floor of FIG.2 — an observer can replay public feeds. Key material inverts the architecture: in the Python toolchain, the <b>OS CSPRNG is the unconditional foundation</b>, and harvested entropy is mixed in <em>on top</em> through HKDF, which can add security but mathematically cannot remove it.</p>
+    <svg viewBox="0 0 1060 300" role="img" aria-label="Wallet mode schematic">
+      <rect class="bxi" x="20" y="30" width="300" height="80"/>
+      <text class="tlw" x="45" y="66">OS CSPRNG · 256 bit</text>
+      <text class="td" x="45" y="92" fill="#B6B9B0">unconditional. no bypass.</text>
+      <rect class="bx" x="20" y="170" width="300" height="80"/>
+      <text class="tl" x="45" y="206">HARVEST + DICE</text>
+      <text class="td" x="45" y="232">optional extras</text>
+      <rect class="bx" x="450" y="95" width="220" height="90"/>
+      <text class="tl" x="480" y="133">HKDF-SHA256</text>
+      <text class="td" x="480" y="160">extras only add</text>
+      <rect class="bx" x="790" y="95" width="250" height="90"/>
+      <text class="tl" x="818" y="133">BIP39</text>
+      <text class="td" x="818" y="160">24 words + checksum</text>
+      <path class="flow" d="M320 70 H400 V115 H450"/>
+      <path class="lnh" d="M320 210 H400 V165 H450" stroke-dasharray="5 4" stroke="#6E726B" stroke-width="1.5"/>
+      <path class="flow" d="M670 140 H790"/>
+    </svg>
+    <div class="fig">FIG.6 — a test in the repo fails the build if any code path ever skips the black box.</div>
+    <p>Even then: generate on an offline machine, write the words on paper or steel, and for serious holdings prefer a hardware wallet's audited generation. This project exists so you <b>understand</b> the process — stated limits are a feature.</p>
+    <p><b>The browser exception:</b> the instrument's KEY/PW output is <em>SEALED class</em> — the same architecture in miniature: an unconditional base from the browser CSPRNG with the emission hashed in on top. Non-reproducible by design, never logged, never in transcripts. Fit for passwords and API keys; wallet seeds still belong to the offline Python toolchain.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>07</i>PROOF</b><span>transcripts · anchors · seals</span></div>
+  <div class="body">
+    <p>Fairness here is a proof, not a promise. Every emission can export a <b>verifiable transcript</b>: the ordered hash of every absorbed sample (duplicates included, marked), the pool fingerprint, the emission nonce, the drand round, and the output. <code style="font-family:var(--mono)">entropy-forge verify transcript.json</code> recomputes the entire chain offline — no trust in the page, the server, or these pixels required.</p>
+    <svg viewBox="0 0 1060 250" role="img" aria-label="Transcript verification chain">
+      <rect class="bx" x="20" y="30" width="250" height="70"/>
+      <text class="tl" x="42" y="62">SAMPLE HASHES</text>
+      <text class="td" x="42" y="86">h₀ ‖ h₁ ‖ … in order</text>
+      <rect class="bx" x="360" y="30" width="180" height="70"/>
+      <text class="tl" x="384" y="62">POOL BUF</text>
+      <text class="td" x="384" y="86">concatenation</text>
+      <rect class="bx" x="640" y="0" width="230" height="60"/>
+      <text class="tl" x="662" y="30">FINGERPRINT</text>
+      <text class="td" x="662" y="50">SHA-256(pool) · commit</text>
+      <rect class="bxi" x="640" y="120" width="400" height="70"/>
+      <text class="tlw" x="662" y="152">OUTPUT = SHA-256(tag ‖ pool ‖ nonce)</text>
+      <text class="td" x="662" y="176" fill="#B6B9B0">+ drand round = freshness anchor</text>
+      <path class="flow" d="M270 65 H360"/>
+      <path class="flow" d="M540 55 H640 V30"/>
+      <path class="flow" d="M540 75 H600 V155 H640"/>
+      <path class="lns" d="M840 190 V225 H60 V100" stroke-dasharray="5 4"/>
+      <text class="tls" x="80" y="242" font-size="13">verifier recomputes the whole chain from the entries</text>
+    </svg>
+    <div class="fig">FIG.7 — the transcript chain. Tamper with any entry, the fingerprint, or the output, and verification fails loudly.</div>
+    <p>Three artifacts travel with each receipt: the <b>fingerprint</b> (commit — publish it before a draw), the <b>drand round</b> (freshness — the output provably postdates it), and the <b>seal</b> — a deterministic dot-matrix glyph of the output bytes, because humans compare shapes faster than hex. The instrument's INSPECTOR shows the same machinery live: the ledger (credit accounting, haircut drawn), the tape (raw digits as absorbed; operator strokes deliberately redacted), and the pool buffer with its live fingerprint. An <b>adversary drill</b> in demo mode replays frozen data through two lanes so you can watch the freshness test zero them — defenses you can see firing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>08</i>DATA SOURCES</b><span>endpoints · licenses</span></div>
+  <div class="body">
+    <div class="srow shead"><span>PROVIDER</span><span>WE READ</span><span>LINK</span></div>
+    <div class="srow"><span>Open-Meteo</span><span>current conditions, 4 random cities — CC-BY 4.0</span><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>USGS Earthquakes</span><span>past-hour feed — US public domain</span><a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>Open-Meteo Flood</span><span>river discharge (GloFAS), random major rivers — CC-BY 4.0</span><a href="https://open-meteo.com/en/docs/flood-api" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>GBIF</span><span>species-occurrence records, random page — mixed CC licenses</span><a href="https://techdocs.gbif.org/en/openapi/" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>NOAA CO-OPS</span><span>latest tide station levels — US public domain</span><a href="https://api.tidesandcurrents.noaa.gov/api/prod/" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>wheretheiss.at</span><span>ISS position + velocity</span><a href="https://wheretheiss.at/w/developer" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>mempool.space</span><span>tip block hash, mempool stats</span><a href="https://mempool.space/docs/api/rest" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>CoinGecko</span><span>spot prices, keyless tier</span><a href="https://www.coingecko.com/en/api" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>Hacker News</span><span>max item ID drift</span><a href="https://github.com/HackerNews/API" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>KMB (data.gov.hk)</span><span>bus ETAs, random route</span><a href="https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>Sensor.Community</span><span>citizen air sensors, random city</span><a href="https://github.com/opendata-stuttgart/meta/wiki/EN-APIs" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow"><span>drand</span><span>beacon round — freshness anchor</span><a href="https://drand.love" target="_blank" rel="noopener">site →</a></div>
+    <div class="srow py"><span>MET Norway</span><span>Python tier — NLOD / CC-BY 4.0, contact UA required</span><a href="https://api.met.no/weatherapi/locationforecast/2.0/documentation" target="_blank" rel="noopener">docs →</a></div>
+    <div class="srow py"><span>Certstream</span><span>Python tier — live TLS certificate transparency</span><a href="https://certstream.calidog.io" target="_blank" rel="noopener">site →</a></div>
+    <p style="margin-top:10px">Be polite: honor each provider's rate limits and caching headers — the instrument's cooldown exists for them, not for you.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cap"><b><i>09</i>FURTHER</b><span>source + repo</span></div>
+  <div class="body">
+    <p>The instrument's per-lane details live on the lanes themselves — hover or tap any source on the <a class="navlink" style="display:inline;border:0;padding:0" href="harvest-theater.html">instrument page</a>. The full pipeline (Python), test suite (BIP39 vectors, cross-checks, CSPRNG invariants), and project plan ship in the repository.</p>
+  </div>
+</section>
+
+<script>
+"use strict";
+/* live avalanche demo — real SHA-256 via WebCrypto, nothing simulated */
+const enc=new TextEncoder();
+const grid=document.getElementById("avgrid");
+const cells=[];
+for(let i=0;i<256;i++){const c=document.createElement("div");c.className="bit";
+  grid.appendChild(c);cells.push(c);}
+async function h(s){return new Uint8Array(await crypto.subtle.digest("SHA-256",enc.encode(s)));}
+const hex=a=>[...a].map(b=>b.toString(16).padStart(2,"0")).join("");
+let tok=0;
+async function avalanche(){
+  const my=++tok;
+  const s=document.getElementById("avin").value||" ";
+  const s2=s.slice(0,-1)+String.fromCharCode((s.charCodeAt(s.length-1)+1)&0x7F||65);
+  const [a,b]=await Promise.all([h(s),h(s2)]);
+  if(my!==tok) return;                      // stale keystroke
+  let diff=0;
+  for(let i=0;i<256;i++){
+    const bit=7-(i%8), flip=((a[i>>3]>>bit)&1)!==((b[i>>3]>>bit)&1);
+    cells[i].classList.toggle("flip",flip); if(flip)diff++;
+  }
+  const ac=document.getElementById("avcount");
+  ac.textContent=diff; ac.style.color="var(--signal)";
+  clearTimeout(ac._t); ac._t=setTimeout(()=>ac.style.color="",320);
+  document.getElementById("avhex").innerHTML=
+    "<b>"+hex(a).slice(0,32)+"…</b><br>"+hex(b).slice(0,32)+"…";
+}
+document.getElementById("avin").addEventListener("input",avalanche);
+avalanche();
+
+/* ---------- power-on self-test ----------
+   Mirrors the instrument page's boot; shares its once-per-session gate.
+   Every result is a check executed right now — only the cadence is staged. */
+(function(){
+  const post=document.getElementById("post");
+  if(!post) return;
+  if(post.hidden){ post.remove(); return; }   // gated off before first paint
+  try{ sessionStorage.setItem("ef1-post","1"); }catch(e){}
+  const POST_STYLE="min";   // "min" = v2 single-verdict boot · "full" = v1 detailed checklist
+  if(POST_STYLE==="min") post.classList.add("min");
+  const pcv=document.getElementById("postcv"), pcx=pcv.getContext("2d");
+  let done=false; const timers=[];
+  const later=(fn,ms)=>{ const t=setTimeout(fn,ms); timers.push(t); return t; };
+  function finish(){
+    if(done) return; done=true;
+    for(const t of timers) clearTimeout(t);
+    window.removeEventListener("keydown",finish);
+    window.removeEventListener("pointerdown",finish);
+    post.classList.add("open");
+    document.documentElement.classList.remove("booting");
+    setTimeout(()=>post.remove(),620);
+  }
+  window.addEventListener("keydown",finish);
+  window.addEventListener("pointerdown",finish);
+  later(finish,6000);   // hard ceiling — the page must never hide behind its boot
+  (async()=>{
+    const vec=await h("abc");
+    const vhex=hex(vec);
+    const shaOK=vhex==="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+    let rngOK=false; try{ crypto.getRandomValues(new Uint8Array(8)); rngOK=true; }catch(e){}
+    let ticks=0; { const t0=performance.now(); let prev=t0;   // distinct clock steps in a 3ms window
+      while(performance.now()-t0<3){ const t=performance.now(); if(t!==prev){ticks++;prev=t;} } }
+    const nSec=document.querySelectorAll("section").length;
+    const nFig=document.querySelectorAll("section svg").length;
+    const W=pcv.width,H=pcv.height,cw=W/16,ch=H/2;
+    pcx.strokeStyle="#D2D4CD"; pcx.lineWidth=1; pcx.strokeRect(.5,.5,W-1,H-1);
+    const cell=(b,i)=>{   // shade between module and ink by byte value — pool cell language
+      const c=i%16,r=(i/16)|0,v=b/255;
+      pcx.fillStyle="rgb("+Math.round(247-224*v)+","+Math.round(247-222*v)+","+Math.round(244-217*v)+")";
+      pcx.fillRect(c*cw+1.5,r*ch+1.5,cw-3,ch-3); };
+    if(POST_STYLE==="min"){
+      /* v2: the checks above still ran — they just don't narrate. The live
+         digest fills the grid, one verdict prints, the case opens. */
+      vec.forEach((b,i)=>later(()=>cell(b,i),120+i*12));
+      later(()=>{ document.getElementById("poststat").innerHTML=
+        (shaOK&&rngOK)?"<b>SHA-256 · VERIFIED</b>":"FAULT"; },120+32*12+90);
+      later(finish,120+32*12+820);
+      return;
+    }
+    const rows=[
+      ["pl-sha", shaOK?"FIPS 180-4 VECTOR · PASS":"VECTOR MISMATCH · FAULT"],
+      ["pl-rng", rngOK?"OS SOURCE PRESENT":"UNAVAILABLE"],
+      ["pl-jit", ticks>0?ticks+" TICKS IN 3 MS":"COARSE CLOCK"],
+      ["pl-doc", nSec+" MODULES · "+nFig+" FIGURES"],
+      ["pl-av", cells.length===256?"256-BIT GRID READY":"GRID FAULT"],
+    ];
+    rows.forEach(([id,txt],i)=>later(()=>{
+      const el=document.getElementById(id); el.textContent=txt;
+      el.closest(".post-line").classList.add("on");
+    },140+i*150));
+    /* the verified digest fills a byte grid — same cell language as the pool */
+    const t0=140+rows.length*150+120;
+    vec.forEach((b,i)=>later(()=>cell(b,i),t0+i*16));
+    later(()=>{
+      const d=document.getElementById("postdigest");
+      d.textContent="CORE DIGEST "+vhex; d.classList.add("on");
+    },t0+32*16+60);
+    later(finish,t0+32*16+620);
+  })().catch(finish);
+})();
+</script>
+</body>
+</html>

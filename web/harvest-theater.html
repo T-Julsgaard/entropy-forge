@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en" class="booting">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src https:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>ENTROPY-FORGE EF-1 · harvest instrument</title>
+<!-- tab icon: "byte grid" — the POOL inspector view in miniature. Cell shades are the first
+     16 bytes of SHA-256("entropy-forge")=75adba22…, quantized to the four chassis tones; the
+     hottest byte (0xE9) burns signal. Inline data URIs keep the page single-file; source
+     SVGs live in favicons/. PNG first = Safari fallback. -->
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACPSURBVFhH7ZMxCoAwDEU9g4tIj+RRBAfv6SJeQupY6Fj5Q0BoIrikATO8ofnQvATSDWMoLbEjkHNSxa7AfmwsyJZ1rnirx+usoD4u4AJ2BbQQBbjpgZShLk1Kfz+hPvR2AReoBLQQBbhpALKv9y5tDLiAC4gCWogCcepZkKlsgGsOkLnAPwS0sCfQisYCodxRpKhYyZY8EgAAAABJRU5ErkJggg=="/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMiAzMic+PHJlY3QgeD0nMScgeT0nMScgd2lkdGg9JzMwJyBoZWlnaHQ9JzMwJyBmaWxsPScjRjdGN0Y0JyBzdHJva2U9JyMxNzE5MUInIHN0cm9rZS13aWR0aD0nMicvPjxyZWN0IHg9JzQnIHk9JzQuMCcgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNEMkQ0Q0QnLz48cmVjdCB4PScxMC4yJyB5PSc0JyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nIzZFNzI2QicvPjxyZWN0IHg9JzE2LjQnIHk9JzQnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjNkU3MjZCJy8+PHJlY3QgeD0nMjIuNicgeT0nNCcgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNFQkVDRTknLz48cmVjdCB4PSc0JyB5PScxMC4yJyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nI0QyRDRDRCcvPjxyZWN0IHg9JzEwLjInIHk9JzEwLjInIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRDJENENEJy8+PHJlY3QgeD0nMTYuNCcgeT0nMTAuMicgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNFQkVDRTknLz48cmVjdCB4PScyMi42JyB5PScxMC4yJyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nIzE3MTkxQicvPjxyZWN0IHg9JzQnIHk9JzE2LjQnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRUJFQ0U5Jy8+PHJlY3QgeD0nMTAuMicgeT0nMTYuNCcgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyM2RTcyNkInLz48cmVjdCB4PScxNi40JyB5PScxNi40JyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nI0VCRUNFOScvPjxyZWN0IHg9JzIyLjYnIHk9JzE2LjQnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRDJENENEJy8+PHJlY3QgeD0nNCcgeT0nMjIuNicgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNFQjRCMTInLz48cmVjdCB4PScxMC4yJyB5PScyMi42JyB3aWR0aD0nNS40JyBoZWlnaHQ9JzUuNCcgZmlsbD0nIzZFNzI2QicvPjxyZWN0IHg9JzE2LjQnIHk9JzIyLjYnIHdpZHRoPSc1LjQnIGhlaWdodD0nNS40JyBmaWxsPScjRUJFQ0U5Jy8+PHJlY3QgeD0nMjIuNicgeT0nMjIuNicgd2lkdGg9JzUuNCcgaGVpZ2h0PSc1LjQnIGZpbGw9JyNEMkQ0Q0QnLz48L3N2Zz4="/>
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAiOSURBVHhe7d0xCq1ZFYRRx2Ai0kNyKIKB8zQRJyEaCh22E1gVNLxd7/BTwQoPFOwvuX9y//CnP//y28xXLOj5lAU9n7Kg51MW9HzKgp5PWdDzKQt6PmVBz6cs6PmUBT2fsqDnU3530L/++r+ZKnWYLOh5njpMFvQ8Tx0mC3qepw6TBT3PU4fJgp7nqcNkQc/z1GGyoOd56jBZ0PM8dZgs6HmeOkwW9DxPHSanQf/zX//4KbTlb3//60/x+pb//PffP4W2JOowWdDHXt+i2Bq0JVGHyYI+9voWxdagLYk6TBb0sde3KLYGbUnUYbKgj72+RbE1aEuiDpMFfez1LYqtQVsSdZgs6GOvb1FsDdqSqMNkQR97fYtia9CWRB0mC/rY61sUW4O2JOowWdDHXt+i2Bq0JVGHyYI+9voWxdagLYk6TBb0sde3KLYGbUnUYbKgj72+RbE1aEuiDpMFfez1LYqtQVsSdZgs6GOvb1FsDdqSqMNkQR97fYtia9CWRB0mC/rY61sUW4O2JOowWdDHXt+i2Bq0JVGHyYI+9voWxdagLYk6TBb0sde3KLYGbUnUYbKgj72+RbE1aEuiDpMFfez1LYqtQVsSdZgs6GOvb1FsDdqSqMNkQR97fYtia9CWRB0mC/rY61sUW4O2JOowWdDHXt+i2Bq0JVGHyYI+9voWxdagLYk6TBb0sde3KLYGbUnUYbKgj72+RbE1aEuiDpPToGd+BHWYLOh5njpMFvQ8Tx0mC3qepw6TBT3PU4fJgp7nqcPkNGh9gWh4fYt+9Tdoi27coC2J3icL+pi2KLYGbdGNG7Ql0ftkQR/TFsXWoC26cYO2JHqfLOhj2qLYGrRFN27QlkTvkwV9TFsUW4O26MYN2pLofbKgj2mLYmvQFt24QVsSvU8W9DFtUWwN2qIbN2hLovfJgj6mLYqtQVt04wZtSfQ+WdDHtEWxNWiLbtygLYneJwv6mLYotgZt0Y0btCXR+2RBH9MWxdagLbpxg7Ykep8s6GPaotgatEU3btCWRO+TBX1MWxRbg7boxg3akuh9sqCPaYtia9AW3bhBWxK9Txb0MW1RbA3aohs3aEui98mCPqYtiq1BW3TjBm1J9D5Z0Me0RbE1aItu3KAtid4nC/qYtii2Bm3RjRu0JdH7ZEEf0xbF1qAtunGDtiR6nyzoY9qi2Bq0RTdu0JZE75MFfUxbFFuDtujGDdqS6H2yoI9pi2Jr0BbduEFbEr1PFvQxbVFsDdqiGzdoS6L3yYI+pi2KrUFbdOMGbUn0PlnQx7RFsTVoi27coC2J3icL+pi2KLYGbdGNG7Ql0fvkNOiZH0EdJgt6nqcOkwU9z1OHyYKe56nDZEHP89RhsqDneeowOQ1av7QbtEV/RNmgLdrcoC36MtOgLYk6TBb0MW3R5gZtUWwN2pKow2RBH9MWbW7QFsXWoC2JOkwW9DFt0eYGbVFsDdqSqMNkQR/TFm1u0BbF1qAtiTpMFvQxbdHmBm1RbA3akqjDZEEf0xZtbtAWxdagLYk6TBb0MW3R5gZtUWwN2pKow2RBH9MWbW7QFsXWoC2JOkwW9DFt0eYGbVFsDdqSqMNkQR/TFm1u0BbF1qAtiTpMFvQxbdHmBm1RbA3akqjDZEEf0xZtbtAWxdagLYk6TBb0MW3R5gZtUWwN2pKow2RBH9MWbW7QFsXWoC2JOkwW9DFt0eYGbVFsDdqSqMNkQR/TFm1u0BbF1qAtiTpMFvQxbdHmBm1RbA3akqjDZEEf0xZtbtAWxdagLYk6TBb0MW3R5gZtUWwN2pKow2RBH9MWbW7QFsXWoC2JOkwW9DFt0eYGbVFsDdqSqMNkQR/TFm1u0BbF1qAtiTpMFvQxbdHmBm1RbA3akqjD5DTomR9BHSYLep6nDpMFPc9Th8mCnuepw2RBz/PUYXIa9O/9UvT6ltf/eLNBWxJ1mCzoY9qi2Bq0RTdu0JZEHSYL+pi2KLYGbdGNG7QlUYfJgj6mLYqtQVt04wZtSdRhsqCPaYtia9AW3bhBWxJ1mCzoY9qi2Bq0RTdu0JZEHSYL+pi2KLYGbdGNG7QlUYfJgj6mLYqtQVt04wZtSdRhsqCPaYtia9AW3bhBWxJ1mCzoY9qi2Bq0RTdu0JZEHSYL+pi2KLYGbdGNG7QlUYfJgj6mLYqtQVt04wZtSdRhsqCPaYtia9AW3bhBWxJ1mCzoY9qi2Bq0RTdu0JZEHSYL+pi2KLYGbdGNG7QlUYfJgj6mLYqtQVt04wZtSdRhsqCPaYtia9AW3bhBWxJ1mCzoY9qi2Bq0RTdu0JZEHSYL+pi2KLYGbdGNG7QlUYfJgj6mLYqtQVt04wZtSdRhsqCPaYtia9AW3bhBWxJ1mCzoY9qi2Bq0RTdu0JZEHSYL+pi2KLYGbdGNG7QlUYfJgj6mLYqtQVt04wZtSdRhsqCPaYtia9AW3bhBWxJ1mJwGPfMjqMNkQc/z1GGyoOd56jBZ0PM8dZgs6HmeOkwW9DxPHSYLep6nDpMFPc9Th8mCnuepw2RBz/PUYbKg53nqMPndQc+8bEHPpyzo+ZQFPZ+yoOdTFvR8yoKeT1nQ8ykLej5lQc+nLOj5lAU9H/KHP/wfMoT9BW9GXsUAAAAASUVORK5CYII="/>
+<style>
+  :root{
+    --chassis:#EBECE9;   /* instrument body */
+    --module:#F7F7F4;    /* module face */
+    --ink:#17191B;       /* engraved text / structure */
+    --dim:#6E726B;       /* secondary labels */
+    --hair:#D2D4CD;      /* hairline rules */
+    --signal:#EB4B12;    /* the ONE functional color: live data only */
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* reserve the scrollbar gutter always — otherwise a harvest that grows the
+     page tall enough to introduce a vertical scrollbar yanks every column
+     ~15px to the left the instant it appears (and back when it's gone) */
+  html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable;overflow-y:scroll}
+  body{background:var(--chassis);color:var(--ink);font-family:var(--mono);
+       padding:max(16px,env(safe-area-inset-top)) 14px max(32px,env(safe-area-inset-bottom));
+       max-width:560px;margin:0 auto;font-size:12px;line-height:1.5;
+       /* full-height flex column so the footer sticks to the bottom of the page
+          (the rack absorbs slack) — tab expand/contract no longer nudges it */
+       display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+  /* faceplate header */
+  /* the boot-in animation below (opacity/transform) forces header AND every
+     section into their own stacking context; sections come after header in
+     the DOM so they'd otherwise paint over it. Give header an explicit,
+     higher stacking level so floating UI inside it (the EMIT TARGET dropdown)
+     can never be trapped under a section like 05 OUTPUT. */
+  header{border:1px solid var(--ink);background:var(--module);padding:14px 14px 12px;
+    position:relative;z-index:1}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .model{font:400 10px/1 var(--mono);letter-spacing:.22em;color:var(--dim)}
+  h1{font:700 22px/1 var(--mono);letter-spacing:-.02em;margin-top:8px}
+  h1 small{font-weight:400;color:var(--dim);letter-spacing:0}
+  .spec{margin-top:10px;color:var(--dim);font-size:11px;line-height:1.65;text-wrap:pretty}
+  .modebar{display:flex;justify-content:space-between;margin-top:12px;padding-top:10px;
+           border-top:1px solid var(--hair);font-size:10px;letter-spacing:.14em}
+  .modebar b{font-weight:700;color:var(--signal)}
+  /* modules */
+  section{border:1px solid var(--ink);border-top:0;background:var(--module)}
+  .cap{display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+       padding:9px 14px;border-bottom:1px solid var(--hair)}
+  .cap b{font:700 10px/1 var(--mono);letter-spacing:.2em}
+  .cap b i{font-style:normal;color:var(--dim);margin-right:8px}
+  .cap span{font-size:10px;color:var(--dim)}
+  /* plot */
+  canvas{display:block;width:100%;height:auto;background:var(--module)}
+  canvas[hidden]{display:none}  /* author display:block would otherwise beat the [hidden] attr */
+  /* inspector views */
+  .viewseg{display:flex;border-bottom:1px solid var(--hair)}
+  .viewseg button{width:auto;flex:1;min-height:34px;padding:8px 4px;border:0;
+    border-right:1px solid var(--hair);border-radius:0;background:var(--module);
+    color:var(--dim);font:700 9px/1 var(--mono);letter-spacing:.16em}
+  .viewseg button:last-child{border-right:0}
+  .viewseg button.on{background:var(--ink);color:var(--module)}
+  .viewdesc{padding:7px 13px;border-bottom:1px solid var(--hair);
+    font-size:9px;letter-spacing:.06em;color:var(--dim);line-height:1.5}
+  .view{padding:11px 13px 13px;min-height:120px}
+  /* combined MAP·POOL view: plot on top, byte grid below with a hairline divider */
+  #vplot .poolcv{margin-top:11px;padding-top:11px;border-top:1px solid var(--hair)}
+  /* zoomable world plot: controls float over the canvas, faint until the plot is hovered */
+  .mapwrap{position:relative}
+  #map{cursor:grab}
+  #map.panning{cursor:grabbing}
+  .mapctl{position:absolute;top:6px;right:6px;display:flex;flex-direction:column;gap:4px}
+  .mapctl button{width:22px;height:22px;min-height:0;padding:0;border:1px solid var(--hair);border-radius:0;
+    background:var(--module);color:var(--dim);font:400 14px/1 var(--mono);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.5;
+    transition:opacity .15s ease,color .15s ease,border-color .15s ease}
+  .mapwrap:hover .mapctl button,.mapctl button:focus-visible{opacity:1}
+  .mapctl button:hover{color:var(--ink);border-color:var(--ink)}
+  .mapctl button:active{color:var(--signal);border-color:var(--signal)}
+  /* data-point detail: a small card that opens where a dot is tapped */
+  .mapinfo{position:absolute;max-width:230px;z-index:3;background:var(--module);
+    border:1px solid var(--ink);padding:9px 10px 10px;font-size:10px;line-height:1.5;
+    color:var(--dim);box-shadow:0 2px 8px rgba(23,25,27,.14)}
+  .mapinfo[hidden]{display:none}
+  .mapinfo b{color:var(--ink)}
+  .mapinfo .mi-h{display:flex;align-items:baseline;gap:6px;margin-right:14px;
+    font:700 9px/1.3 var(--mono);letter-spacing:.12em;color:var(--ink);text-transform:uppercase}
+  .mapinfo .mi-h em{font-style:normal;color:var(--signal);letter-spacing:.04em}
+  .mapinfo .mi-co{margin:4px 0 6px;font-size:9px;letter-spacing:.04em;color:var(--dim)}
+  .mapinfo .mi-d{font-size:10px;line-height:1.55}
+  .mapinfo .mi-x{position:absolute;top:4px;right:5px;width:16px;height:16px;min-height:0;
+    padding:0;border:0;background:none;color:var(--dim);font:400 15px/1 var(--mono);cursor:pointer}
+  .mapinfo .mi-x:hover{color:var(--ink)}
+  /* TAPE can grow long — cap it and scroll inside, like a chart recorder window */
+  #vtape{max-height:240px;overflow-y:auto}
+  .lrow{display:grid;grid-template-columns:88px 1fr 92px;gap:8px;align-items:center;
+    margin-top:6px;font-size:9px;color:var(--dim)}
+  .lrow:first-child{margin-top:0}
+  .lrow .lname-l{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lbar{height:10px;border:1px solid var(--hair);position:relative;background:var(--module)}
+  .lbar .cr{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+  .lbar .dc{position:absolute;top:0;bottom:0;
+    background:repeating-linear-gradient(45deg,transparent 0 3px,var(--signal) 3px 4px)}
+  .lrow .num{text-align:right;white-space:nowrap}
+  .levents{margin-top:10px;padding-top:8px;border-top:1px dashed var(--hair);
+    font-size:9px;color:var(--dim);line-height:1.7}
+  .levents b{color:var(--ink)}
+  .trow{display:flex;gap:8px;align-items:baseline;font-size:10px;line-height:1.75;color:var(--dim)}
+  .trow b{color:var(--ink);flex:0 0 92px;font-size:9px;letter-spacing:.04em}
+  .trow em{font-style:normal;color:var(--signal);word-break:break-all;min-width:0}
+  .trow em.priv{color:var(--dim);letter-spacing:.12em}
+  .trow span{margin-left:auto;flex:none;font-size:9px}
+  .poolfp{margin-top:9px;font-size:9px;color:var(--dim);line-height:1.6}
+  .poolfp b{color:var(--ink);font-weight:400;word-break:break-all}
+  /* lanes */
+  .lane{display:grid;grid-template-columns:16px 96px 1fr;gap:10px;align-items:center;
+        padding:10px 14px;border-bottom:1px solid var(--hair);min-height:46px}
+  .lane:last-child{border-bottom:0}
+  .dot{width:9px;height:9px;border:1.5px solid var(--ink);border-radius:50%;
+       background:transparent;justify-self:center}
+  .lane.fetching .dot{border-color:var(--signal);background:var(--signal);
+                      animation:blink .9s steps(2,start) infinite}
+  .lane.ok .dot{background:var(--ink)}
+  .lane.fail .dot{border-color:var(--dim);background:transparent;position:relative}
+  @keyframes blink{50%{opacity:.2}}
+  .lname{font-weight:700;font-size:11px}
+  .ldom{display:block;color:var(--dim);font-size:9px;letter-spacing:.1em;margin-top:3px;
+        text-transform:uppercase}
+  .lval{color:var(--dim);font-size:11px;overflow:hidden;white-space:nowrap;
+        text-overflow:ellipsis;min-width:0}
+  .lval em{font-style:normal;color:var(--signal)}
+  .lane.fail .lval{color:var(--dim)}
+  .lane.fail .lval::before{content:"✕ ";color:var(--ink)}
+  /* per-source info: hover on pointer devices, tap-to-toggle on touch */
+  .laneinfo{display:none;grid-column:1/-1;font-size:10px;line-height:1.6;color:#3F433D;
+            padding-top:7px;margin-top:2px;border-top:1px dashed var(--hair)}
+  .laneinfo b{color:var(--ink)}
+  .apilink{color:var(--ink);text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+  .apilink:active{color:var(--signal)}
+  .lane.open .laneinfo{display:block}
+  @media (hover:hover){ .lane:hover .laneinfo{display:block} .lane{cursor:help} }
+  .lanesfoot{padding:8px 14px;border-top:1px solid var(--hair);font-size:9px;color:var(--dim);line-height:1.5}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  /* demo replay switch */
+  .demoswitch{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin-top:10px;padding-top:10px;border-top:1px solid var(--hair);
+    font-size:10px;letter-spacing:.1em;color:var(--dim);cursor:pointer;user-select:none}
+  .demoswitch .sw{width:34px;height:18px;border:1px solid var(--ink);position:relative;flex:none}
+  .demoswitch .sw::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;
+    background:var(--dim)}
+  /* every switch input is visually replaced by the .sw track — no native checkbox */
+  .demoswitch input{position:absolute;opacity:0;pointer-events:none}
+  .demoswitch input:checked~.sw::after{left:auto;right:2px;background:var(--signal)}
+  .demoswitch input:disabled~.sw{opacity:.4}
+  .swx{font-size:inherit;font-weight:inherit}
+  /* manual link styled as an outlined instrument chip so the eye catches it —
+     monochrome by default, hover fills ink, press flashes the signal (same
+     press-feedback the primary buttons use) */
+  .navlink{display:inline-flex;align-items:center;gap:7px;margin-top:12px;
+    font:700 10px/1 var(--mono);letter-spacing:.12em;color:var(--ink);text-decoration:none;
+    border:1px solid var(--ink);padding:9px 12px;transition:background .15s ease,color .15s ease}
+  .navlink::after{content:"→";font-weight:400}
+  .navlink:hover{background:var(--ink);color:var(--module)}
+  .navlink:active{background:var(--signal);border-color:var(--signal);color:var(--module)}
+  /* operator pad */
+  #pad{touch-action:none;cursor:crosshair;height:96px}   /* explicit height so the pad backing store can match its box */
+  .padrow{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;
+          border-top:1px solid var(--hair);font-size:9px;color:var(--dim)}
+  #padbits{color:var(--ink);font-weight:700;white-space:nowrap}
+  /* pool */
+  .poolbody{padding:12px 14px 14px}
+  .gauge{height:12px;border:1px solid var(--ink);background:
+    repeating-linear-gradient(90deg,transparent 0 9px,var(--hair) 9px 10px)}
+  .fill{height:100%;width:0%;background:var(--ink);transition:width .5s ease}
+  .poolmeta{display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--dim)}
+  .domains{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-top:12px;
+           border:1px solid var(--ink);background:var(--hair)}
+  .dchip{background:var(--module);text-align:center;font-size:9px;letter-spacing:.04em;
+         padding:7px 2px;color:var(--dim);text-transform:uppercase;
+         min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dchip.lit{background:var(--ink);color:var(--module)}
+  .dchip.seen{color:var(--ink);box-shadow:inset 0 0 0 1px var(--signal)}
+  .dchip.fill{background:var(--module)}
+  /* output */
+  .outbody{padding:14px}
+  button{width:100%;padding:15px;border:1px solid var(--ink);background:var(--ink);
+         color:var(--module);cursor:pointer;font:700 12px/1 var(--mono);
+         letter-spacing:.18em;min-height:48px;border-radius:0}
+  button:active{background:var(--signal);border-color:var(--signal)}
+  button:disabled{background:var(--module);color:var(--dim);border-color:var(--hair)}
+  button.ghost{background:var(--module);color:var(--ink);margin-top:8px}
+  button.ghost:active{color:var(--signal)}
+  /* receipt output */
+  #receipt{margin-top:14px;background:#FDFDFB;border:1px solid var(--hair);
+           border-bottom:1px dashed var(--ink);padding:12px 12px 16px;display:none}
+  #receipt.printed{display:block;animation:feed .45s ease both}
+  @keyframes feed{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+  #receipt .rlabel{font-size:9px;letter-spacing:.2em;color:var(--dim);margin-bottom:8px}
+  .rfresh{font-size:9px;letter-spacing:.08em;color:var(--dim);margin-bottom:8px;line-height:1.5}
+  .rfresh b{color:var(--ink);font-weight:400}
+  #seal{float:right;width:36px;height:36px;margin:0 0 6px 10px;image-rendering:pixelated}
+  .fmt{border:1px solid var(--hair);margin-bottom:10px}
+  .fmt button{min-height:30px;font-size:8px;letter-spacing:.1em;padding:7px 2px}
+  .fmt button.refused{color:var(--dim);text-decoration:line-through;
+    text-decoration-color:var(--signal);cursor:not-allowed}
+  .fmtnote{margin-top:8px;padding-top:7px;border-top:1px dashed var(--hair);
+    font-size:9px;letter-spacing:.06em;color:var(--dim);line-height:1.5}
+  /* when the harvest buttons sit above the format strip (desktop), breathe a bit */
+  button + .fmt{margin-top:12px}
+  #tsout{width:100%;height:110px;margin-top:8px;border:1px solid var(--hair);
+    background:#FDFDFB;font:400 9px/1.5 var(--mono);color:var(--dim);padding:8px;resize:none}
+  #hex{font-size:13px;line-height:1.8;letter-spacing:.1em;word-break:break-all}
+  /* reserve one line so the empty→"harvesting…" transition doesn't grow OUTPUT
+     and nudge the POOL gauge below it down a line, then back */
+  #status{margin-top:10px;font-size:10px;line-height:1.6;color:var(--dim);min-height:1.6em}
+  #status b{color:var(--signal);font-weight:700}
+  /* minimal site footer (replaces the old 06 NOTES module) */
+  #siteftr{margin-top:14px;padding:12px 2px 2px;border-top:1px solid var(--hair);
+    display:flex;flex-wrap:wrap;gap:8px 26px;font-size:9px;line-height:1.65;color:var(--dim)}
+  #siteftr span{flex:1 1 220px;min-width:0}
+  #siteftr b{color:var(--ink);font-weight:700}
+  #siteftr .apilink{white-space:nowrap}
+  /* ---------- power-on self-test (boot) ----------
+     Chassis-colored case covers the rack while REAL checks run (SHA-256 test
+     vector, CSPRNG probe, live clock-jitter sample, registry counts) — the
+     pacing is presentation, the results are not. Any key/tap skips; repeat
+     visits this session and reduced-motion skip entirely (gate script below
+     the overlay markup). When the checks clear, the case splits along its
+     seam and the rack's boot stagger plays underneath. */
+  html.booting header,html.booting section{animation-play-state:paused}
+  #post{position:fixed;inset:0;z-index:90;display:flex;align-items:center;
+    justify-content:center;padding:24px}
+  #post[hidden]{display:none}
+  .post-half{position:absolute;left:0;width:100%;height:50%;background:var(--chassis);
+    transition:transform .55s cubic-bezier(.76,0,.24,1)}
+  .post-top{top:0;border-bottom:1px solid var(--ink)}
+  .post-bot{bottom:0;border-top:1px solid var(--ink)}
+  #post.open .post-top{transform:translateY(-101%)}
+  #post.open .post-bot{transform:translateY(101%)}
+  .post-card{position:relative;width:min(380px,92vw);border:1px solid var(--ink);
+    background:var(--module);padding:15px 16px 13px;transition:opacity .16s ease}
+  #post.open .post-card{opacity:0}
+  .post-title{font:700 10px/1 var(--mono);letter-spacing:.2em;margin-top:12px;
+    padding-top:10px;border-top:1px solid var(--hair)}
+  .post-line{display:flex;align-items:baseline;gap:9px;margin-top:8px;
+    font-size:10px;letter-spacing:.04em;color:var(--dim);opacity:0}
+  .post-line.on{opacity:1;animation:tick .22s ease}
+  .post-line .led{flex:none;width:7px;height:7px;border:1.5px solid var(--ink);
+    align-self:center;background:transparent}
+  .post-line.on .led{background:var(--ink)}
+  .post-line b{font-weight:700;color:var(--ink);letter-spacing:.08em}
+  .post-line span{margin-left:auto;text-align:right}
+  #postcv{display:block;width:100%;height:auto;margin-top:12px}
+  .post-digest{margin-top:7px;font-size:9px;line-height:1.6;color:var(--signal);
+    word-break:break-all;min-height:29px;visibility:hidden}
+  .post-digest.on{visibility:visible}
+  .post-skip{margin-top:10px;padding-top:9px;border-top:1px solid var(--hair);
+    font-size:9px;letter-spacing:.14em;color:var(--dim)}
+  /* v2 minimal boot: same real checks, one verdict line instead of the list.
+     POST_STYLE in the boot script picks "min" (this) or "full" (v1 checklist). */
+  #post.min .post-title,#post.min #postlines,#post.min .post-digest,#post.min .post-skip{display:none}
+  #post.min #postcv{margin-top:14px}
+  .post-status{display:none;justify-content:space-between;align-items:baseline;gap:10px;
+    margin-top:11px;font:700 10px/1 var(--mono);letter-spacing:.18em;color:var(--dim)}
+  #post.min .post-status{display:flex}
+  .post-status b{color:var(--signal)}
+  /* motion = instrument feedback only */
+  header,section{animation:boot .3s ease both}
+  section:nth-of-type(1){animation-delay:.04s} section:nth-of-type(2){animation-delay:.08s}
+  section:nth-of-type(3){animation-delay:.12s} section:nth-of-type(4){animation-delay:.16s}
+  section:nth-of-type(5){animation-delay:.20s} section:nth-of-type(6){animation-delay:.24s}
+  @keyframes boot{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .dot{transition:background .2s ease,border-color .2s ease}
+  .dchip{transition:background .18s ease,color .18s ease}
+  .lval.tick{animation:tick .22s ease}
+  @keyframes tick{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  #bits{transition:color .45s ease} #bits.gain{color:var(--signal)}
+  #poolstate.ready{color:var(--signal);font-weight:700}
+  button{transition:transform .06s ease}
+  button:not(:disabled):active{transform:translateY(1px)}
+  button.ghost:disabled{background:linear-gradient(90deg,var(--hair) var(--p,0%),var(--module) 0)}
+  @media (prefers-reduced-motion:reduce){
+    header,section{animation:none}
+    #post{display:none}
+    .lval.tick{animation:none}
+    button{transition:none}
+    .lane.fetching .dot{animation:none}
+    .fill{transition:none} #receipt.printed{animation:none}
+  }
+  /* ---------- rack: mobile-first single column ----------
+     The three .col wrappers are display:contents so the six modules stack in
+     reading order; `order` restores the 01→06 sequence regardless of the DOM
+     grouping the desktop rack needs. Columns become real flex bays at ≥1080px. */
+  #rack{display:flex;flex-direction:column;gap:0;flex:1 0 auto}  /* grow to fill, so #siteftr rides the bottom */
+  .col{display:contents}
+  #m-inspector{order:1}#m-sources{order:2}#m-operator{order:3}
+  #m-pool{order:4}#m-output{order:5}
+  /* EMIT TARGET numeric control — user sets how many credited bits to require */
+  .numctl{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.1em;
+    color:var(--dim);user-select:none}
+  .numctl>span{white-space:nowrap;font-weight:700}
+  .numctl input{width:58px;font:700 11px/1 var(--mono);color:var(--ink);background:var(--module);
+    border:1px solid var(--ink);border-radius:0;padding:5px 6px;text-align:right}
+  /* custom EMIT TARGET dropdown — a real listbox, so the hovered row is
+     instrument-dark instead of the OS's blue native-select highlight */
+  .selbox{position:relative}
+  .selbtn{font:700 10px/1 var(--mono);letter-spacing:.06em;color:var(--ink);text-align:left;
+    background:var(--module);border:1px solid var(--ink);border-radius:0;padding:6px 22px 6px 8px;
+    min-height:0;width:auto;cursor:pointer;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+    background-position:calc(100% - 12px) 55%,calc(100% - 7px) 55%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .selbtn:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+  .selmenu{position:absolute;left:0;top:calc(100% + 3px);z-index:20;margin:0;padding:0;list-style:none;
+    min-width:100%;background:var(--module);border:1px solid var(--ink);box-shadow:0 3px 10px rgba(23,25,27,.14)}
+  .selmenu[hidden]{display:none}
+  .selmenu li{font:700 10px/1 var(--mono);letter-spacing:.06em;color:var(--ink);
+    padding:7px 12px;cursor:pointer;white-space:nowrap}
+  .selmenu li:hover,.selmenu li[aria-selected="true"]{background:var(--ink);color:var(--module)}
+  .numctl select:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+  /* ---------- phone mode (auto below 640px): app-like, thumb-first ---------- */
+  #actionbar{display:none}
+  .spec-short{display:none}
+  @media (max-width:640px){
+    body{padding:max(10px,env(safe-area-inset-top)) 10px 118px;font-size:11px}
+    header{padding:12px 12px 10px}
+    h1{font-size:19px;margin-top:6px}
+    .spec{display:none}
+    .spec-short{display:block;margin-top:8px;color:var(--dim);font-size:10px;line-height:1.55}
+    .modebar{margin-top:10px;padding-top:8px;font-size:9px}
+    .cap{padding:8px 11px}
+    .lane{grid-template-columns:13px 78px 1fr;gap:8px;padding:8px 11px;min-height:42px}
+    .lname{font-size:10px} .lval{font-size:10px} .ldom{font-size:8px}
+    .poolbody{padding:10px 11px 12px}
+    .dchip{font-size:8px;padding:6px 1px}
+    .outbody{padding:11px}
+    /* docked action bar: primary control always under the thumb */
+    #actionbar{display:block;position:fixed;left:50%;transform:translateX(-50%);
+      bottom:0;width:100%;max-width:560px;background:var(--chassis);
+      border-top:1px solid var(--ink);
+      padding:10px 10px calc(10px + env(safe-area-inset-bottom))}
+    #actionbar button{margin-top:0}
+    #actionbar button.ghost{margin-top:8px}
+  }
+  /* ---------- desktop mode (≥1080px): instrument rack, INDEPENDENT columns ----------
+     Three flex columns that do NOT share row tracks. A module growing — a lane
+     info panel opening, an inspector view switching — reflows only its own column;
+     the columns left and right of it never move. Same DOM as mobile. */
+  @media (min-width:1080px){
+    body{max-width:1560px;padding:18px 22px 26px}
+    #rack{flex-direction:row;gap:14px;align-items:flex-start;margin-top:14px}
+    .col{display:flex;flex-direction:column;gap:14px;min-width:0}
+    /* default arrangement: SOURCES | OUTPUT+POOL | INSPECTOR+OPERATOR (inspector right) */
+    #colL{flex:0 0 330px;order:1}
+    #colM{flex:1 1 460px;max-width:520px;order:3}
+    #colR{flex:1 1 430px;order:2}
+    /* DOM order governs inside each column — drop the mobile 01→06 ordering */
+    #m-inspector,#m-sources,#m-operator,#m-pool,#m-output{order:0}
+    section{border-top:1px solid var(--ink)}
+    /* hold the inspector at a steady height so switching MAP/LEDGER/TAPE/POOL
+       doesn't jog the pool + operator stacked beneath it */
+    #m-inspector .view{min-height:210px}
+    /* faceplate: title · spec · mode readout on one line, control rail below */
+    /* title spans the left rack column so the spec starts on the column-2 grid
+       line — aligned with the OUTPUT bar and the EMIT TARGET control below */
+    #hmain{display:flex;align-items:flex-start;gap:14px}
+    #htitle{flex:0 0 316px}   /* left rack column (330) minus header's 14px padding */
+    /* shrink the title block to its own text width so MODEL EF-1 (right end of the
+       space-between model row) lands on the same line as "live" under it, even
+       though #htitle is a wider fixed column */
+    #htitle .htin{width:max-content;max-width:100%}
+    #hmain .spec{flex:1;max-width:560px;margin-top:2px;font-size:10px}
+    #hmain .modebar{flex:none;flex-direction:column;align-items:flex-end;gap:7px;
+      margin-top:2px;margin-left:auto;padding-top:0;border-top:0}   /* pin to the right corner */
+    #hctl{display:flex;align-items:center;gap:22px;margin-top:12px;padding-top:10px;
+      border-top:1px solid var(--hair);flex-wrap:wrap}
+    #hctl .demoswitch{margin:0;padding:0;border:0;flex:none}
+    #hctl .swx{display:none}
+    #hctl .navlink{margin:0 0 0 auto}
+    /* denser lanes: all 13 fit the left column */
+    .lane{padding:8px 12px;min-height:40px;grid-template-columns:14px 88px 1fr;position:relative}
+    /* lane hover-info is a POPOVER (absolute) so opening one never changes the
+       column's height — that keeps the footer perfectly still on every screen
+       instead of the whole page jumping when you hover a source */
+    .laneinfo{position:absolute;left:0;right:0;top:calc(100% - 1px);z-index:6;margin:0;
+      background:var(--module);border:1px solid var(--ink);padding:9px 12px;
+      box-shadow:0 3px 10px rgba(23,25,27,.10)}
+    /* the last few lanes open the popover UPWARD so it never spills past the column */
+    #lanes .lane:nth-last-child(-n+4) .laneinfo{top:auto;bottom:calc(100% - 1px)}
+    /* operator pad ~30% taller */
+    #pad{height:130px}
+  }
+  /* laptop-height viewports: shave chrome so the rack still fits one screen */
+  @media (min-width:1080px) and (max-height:1000px){
+    body{padding:12px 22px 8px}
+    #rack{gap:10px;margin-top:10px} .col{gap:10px}
+    #colL{flex-basis:300px}
+    #hmain{gap:10px} #htitle{flex-basis:286px}   /* narrower left column (300) minus header padding */
+    #colM{max-width:456px}   /* narrower column → shorter world-plot canvas */
+    header{padding:10px 14px 9px}
+    h1{font-size:18px;margin-top:6px}
+    #hmain .spec{font-size:9.5px;line-height:1.5}
+    #hctl{margin-top:8px;padding-top:8px;gap:8px 14px;row-gap:6px}
+    .lane{min-height:0;padding:3px 12px;grid-template-columns:13px 96px 1fr}
+    .lname{font-size:10px;line-height:1.25} .lval{font-size:10px;line-height:1.2}
+    .ldom{font-size:8px;margin-top:1px;line-height:1}
+    .lanesfoot{padding:5px 12px;font-size:8px;line-height:1.4}
+    #m-inspector .view{min-height:130px}
+    .view{min-height:100px}
+    #vtape{max-height:150px}
+    .viewdesc{display:none}
+    #pad{height:82px}   /* ~30% taller operator pad */
+    .padrow{padding:6px 12px}
+    .poolbody{padding:10px 12px 12px}
+    .dchip{padding:5px 2px}
+    #siteftr{margin-top:6px;font-size:8px;padding-top:8px}
+  }
+  /* very short laptops (≤740px): also fold the header spec into one tight line */
+  @media (min-width:1080px) and (max-height:740px){
+    #hmain .spec{display:none}
+    #hmain .spec-short{display:block;flex:1;margin:2px 0 0;font-size:9.5px;color:var(--dim)}
+  }
+</style>
+</head>
+<body>
+<div id="post" aria-hidden="true">
+  <div class="post-half post-top"></div>
+  <div class="post-half post-bot"></div>
+  <div class="post-card">
+    <div class="row"><span class="model">ENTROPY-FORGE</span><span class="model">MODEL EF-1</span></div>
+    <div class="post-title">POWER-ON SELF-TEST</div>
+    <div id="postlines">
+      <div class="post-line"><i class="led"></i><b>SHA-256 CORE</b><span id="pl-sha">—</span></div>
+      <div class="post-line"><i class="led"></i><b>CSPRNG</b><span id="pl-rng">—</span></div>
+      <div class="post-line"><i class="led"></i><b>CLOCK JITTER</b><span id="pl-jit">—</span></div>
+      <div class="post-line"><i class="led"></i><b>SOURCE REGISTRY</b><span id="pl-src">—</span></div>
+      <div class="post-line"><i class="led"></i><b>OPERATOR PAD</b><span id="pl-pad">—</span></div>
+    </div>
+    <canvas id="postcv" width="348" height="44"></canvas>
+    <div class="post-digest" id="postdigest"></div>
+    <div class="post-status"><span>POWER-ON SELF-TEST</span><span id="poststat">RUNNING</span></div>
+    <div class="post-skip">TAP / ANY KEY — SKIP</div>
+  </div>
+</div>
+<script>
+/* boot gate: same-session revisits and reduced-motion skip the self-test before first paint */
+try{
+  if(sessionStorage.getItem("ef1-post")==="1"||matchMedia("(prefers-reduced-motion:reduce)").matches){
+    document.getElementById("post").hidden=true;
+    document.documentElement.classList.remove("booting");
+  }
+}catch(e){ document.documentElement.classList.remove("booting"); }
+</script>
+<header>
+  <div id="hmain">
+    <div id="htitle">
+      <div class="htin">
+        <div class="row"><span class="model">ENTROPY-FORGE</span><span class="model">MODEL EF-1</span></div>
+        <h1>harvest instrument <small>· live</small></h1>
+      </div>
+    </div>
+    <p class="spec">Reads entropy from 13 lanes across 12 independent domains — earthquakes, wildlife, tides, rivers, the Bitcoin mempool, transit and citizen sensors — plus your finger on the operator pad, the one input no observer can replay. Every reading is a real, live fetch.</p>
+    <p class="spec-short">13 entropy lanes: quakes, wildlife, tides, the Bitcoin mempool + your finger on the pad — all live fetches.</p>
+    <div class="row modebar"><span>MODE <b id="modelabel">PUBLIC-ENTROPY</b></span><span>OUTPUT CLASS · NON-SECRET</span></div>
+  </div>
+  <div id="hctl">
+    <label class="demoswitch" title="Per-sample Geiger clicks, pitch keyed to domain. Audio is on by default — toggle to mute."><span>MUTE<small class="swx"> — silence the per-sample Geiger clicks (audio on by default)</small></span>
+      <input type="checkbox" id="snd"><span class="sw"></span></label>
+    <label class="demoswitch" title="Keep harvesting on its own — fires the next round the moment the recharge clears, streaming a fresh emission each round."><span>AUTO-HARVEST<small class="swx"> — keep harvesting; re-emit every round</small></span>
+      <input type="checkbox" id="auto"><span class="sw"></span></label>
+    <div class="numctl" title="How many credited bits the pool must reach before it will emit. STANDARD (512) is a conservative 2× margin; a lower preset lets a single harvest emit. CUSTOM sets your own value. The floor of 5 independent domains always applies.">
+      <span>EMIT TARGET</span>
+      <div class="selbox" id="tgtbox">
+        <button type="button" class="selbtn" id="tgtbtn" aria-haspopup="listbox" aria-expanded="false">STANDARD · 512b</button>
+        <ul class="selmenu" id="tgtmenu" role="listbox" aria-label="Emit target preset" hidden>
+          <li role="option" data-v="128">MINIMAL · 128b</li>
+          <li role="option" data-v="256">QUICK · 256b</li>
+          <li role="option" data-v="512" aria-selected="true">STANDARD · 512b</li>
+          <li role="option" data-v="1024">HARDENED · 1024b</li>
+          <li role="option" data-v="custom">CUSTOM…</li>
+        </ul>
+      </div>
+      <input type="number" id="tgtbits" min="64" max="4096" step="64" value="512" aria-label="Emit target in bits" hidden><span id="tgtunit" hidden>bits</span>
+    </div>
+    <a class="navlink" href="harvest-manual.html">TECHNICAL MANUAL — how the instrument works</a>
+  </div>
+</header>
+
+<div id="rack">
+<div class="col" id="colL">
+
+<section id="m-sources">
+  <div class="cap"><b><i>02</i>SOURCES</b><span>extracted digits in <em style="color:var(--signal);font-style:normal">signal</em></span></div>
+  <div id="lanes"></div>
+  <div class="lanesfoot">Some feeds update only every 5–15 min — a repeat fetch is credited 0 bits by the freshness test.</div>
+</section>
+
+</div>
+<div class="col" id="colM">
+
+<section id="m-inspector">
+  <div class="cap"><b><i>01</i>INSPECTOR</b><span>three views · one pool</span></div>
+  <div class="viewseg" role="tablist">
+    <button type="button" data-v="plot" class="on">MAP · POOL</button>
+    <button type="button" data-v="ledger">LEDGER</button>
+    <button type="button" data-v="tape">TAPE</button>
+  </div>
+  <div class="viewdesc" id="viewhint">world plot above (scroll to zoom · tap a dot for detail) · byte buffer below, with a verifiable SHA-256 fingerprint</div>
+  <div id="vplot" class="view">
+    <div class="mapwrap">
+      <canvas id="map" width="1060" height="560" role="img" aria-label="World plot: pulses mark live fetch coordinates. Scroll or pinch to zoom, drag to pan."></canvas>
+      <div class="mapctl">
+        <button type="button" id="zin" aria-label="Zoom in">+</button>
+        <button type="button" id="zout" aria-label="Zoom out">&minus;</button>
+      </div>
+      <div class="mapinfo" id="mapinfo" hidden role="dialog" aria-label="Data point detail"></div>
+    </div>
+    <canvas id="poolcv" width="1060" height="224" role="img" aria-label="Pool buffer bytes as shaded cells" class="poolcv"></canvas>
+    <div class="poolfp" id="poolfp">pool empty — run a harvest</div>
+  </div>
+  <div id="vledger" class="view" hidden></div>
+  <div id="vtape" class="view" hidden></div>
+</section>
+
+<section id="m-operator">
+  <div class="cap"><b><i>03</i>OPERATOR</b><span>private local entropy · optional</span></div>
+  <canvas id="pad" width="1060" height="230"></canvas>
+  <div class="padrow"><span>trace strokes — the only PRIVATE input, device-only</span><span id="padbits">0 bits</span></div>
+</section>
+
+</div>
+<div class="col" id="colR">
+
+<section id="m-output">
+  <div class="cap"><b><i>05</i>OUTPUT</b><span>SHA-256 conditioned</span></div>
+  <div class="outbody">
+    <div class="viewseg fmt" id="fmtseg">
+      <button type="button" data-f="hex" class="on">HEX</button>
+      <button type="button" data-f="b64">B64</button>
+      <button type="button" data-f="uuid">UUID</button>
+      <button type="button" data-f="int">INT</button>
+      <button type="button" data-f="dice">D6×10</button>
+      <button type="button" data-f="lotto">LOTTO</button>
+    </div>
+    <button id="go">HARVEST + EMIT 32 BYTES</button>
+    <button id="again" class="ghost" hidden>HARVEST ANOTHER ROUND</button>
+    <div id="receipt"><canvas id="seal" width="72" height="72" aria-label="Deterministic seal of the output bytes"></canvas>
+      <div class="rlabel">32 BYTES · CLASS: PUBLIC-ENTROPY · UNSUITABLE FOR KEY MATERIAL</div>
+      <div class="rfresh" id="rfresh" hidden></div>
+      <div id="hex"></div>
+      <div class="fmtnote" id="fmtnote" hidden></div></div>
+    <button id="transcriptbtn" class="ghost" hidden>EXPORT VERIFIABLE TRANSCRIPT (.json)</button>
+    <textarea id="tsout" hidden readonly aria-label="Transcript JSON"></textarea>
+    <div id="status"></div>
+  </div>
+</section>
+
+<section id="m-pool">
+  <div class="cap"><b><i>04</i>POOL</b><span id="poolstate">idle</span></div>
+  <div class="poolbody">
+    <div class="gauge"><div class="fill" id="fill"></div></div>
+    <div class="poolmeta"><span id="bits">0 bits credited</span><span id="tgtlabel">target 512</span></div>
+    <div class="domains" id="domchips"></div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer id="siteftr">
+  <span><b>NON-SECRET output</b> — good for provably-fair draws, nonces, UUIDs, simulations; never keys, seeds, or passwords. Every source is public and replayable; the pool won't emit below 5 independent domains, and failed or duplicate fetches credit 0 bits.</span>
+  <span><b>Privacy</b> — a live harvest reveals your IP to each provider; use Tor or a VPN if that matters. Zero external scripts, enforced by CSP.</span>
+  <span>Full threat model &amp; data-source licenses in the <a class="apilink" href="harvest-manual.html">technical manual →</a></span>
+</footer>
+
+<div id="actionbar"></div>
+<div id="sr" class="vh" aria-live="polite"></div>
+
+<script>
+"use strict";
+/* ---------- tiny pipeline (mirrors the Python core) ---------- */
+const tail = (v,n=2)=>String(v).replace(/[^0-9]/g,"").slice(-n);
+const enc = new TextEncoder();
+async function sha256(bytes){ return new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)); }
+function concat(...arrs){ const n=arrs.reduce((s,a)=>s+a.length,0); const o=new Uint8Array(n);
+  let p=0; for(const a of arrs){o.set(a,p);p+=a.length} return o; }
+
+const DOMAINS = ["atmosphere","geophysics","orbital","markets","blockchain","human",
+                 "biosphere","hydrology","ocean","transit","citizen","beacon",
+                 "operator","local"];
+const DLABEL = {atmosphere:"atmos",geophysics:"geo",orbital:"orbit",markets:"mkts",
+  blockchain:"chain",human:"human",biosphere:"bio",hydrology:"hydro",
+  ocean:"ocean",transit:"trnst",citizen:"ctzn",beacon:"beacon",operator:"oprtr",
+  local:"local"};
+const pool = { buf:new Uint8Array(0), domainBits:{}, lastHash:{}, seen:{}, events:[] };
+
+let poolVersion=0, printedVersion=-1, lastDrand=null, autoReemitting=false;
+let TARGET=512;            // credited-bit gate, user-settable via EMIT TARGET
+const MINDOM=5;            // independent-domain floor (one harvest already clears this)
+let autoHarvest=false, autoTimer=null;
+const trLog=[]; let currentTranscript=null;
+const tapeLog=[];
+function tape(name,str,bits){
+  const priv=name==="operator";
+  tapeLog.unshift({name,priv,bits,
+    preview:priv?"":String(str.split("|")[0]||"").slice(0,26)});
+  if(tapeLog.length>60) tapeLog.length=60;
+}
+async function absorb(name, domain, str, estBits){
+  const bytes = enc.encode(name+"\x00"+str);
+  const h = await sha256(bytes); const hex = [...h].map(b=>b.toString(16).padStart(2,"0")).join("");
+  pool.buf = concat(pool.buf, h); poolVersion++;     // always absorb
+  pool.seen[domain]=true;
+  geiger(domain,false);
+  if(pool.lastHash[name]===hex){                     // freshness test
+    pool.events.push(name+": stale_duplicate (0 bits)");
+    tape(name,str,0);
+    trLog.push({n:trLog.length,name,domain,hash:hex,bits:0,dup:true});
+    return 0;
+  }
+  pool.lastHash[name]=hex;
+  pool.domainBits[domain]=(pool.domainBits[domain]||0)+estBits;
+  tape(name,str,estBits);
+  trLog.push({n:trLog.length,name,domain,hash:hex,bits:estBits});
+  return estBits;
+}
+function creditedBits(){                              // 40% domain haircut
+  const vals=Object.values(pool.domainBits), raw=vals.reduce((a,b)=>a+b,0);
+  if(!raw) return 0; const cap=.4*raw;
+  return vals.reduce((a,v)=>a+Math.min(v,cap),0);
+}
+function domains(){ return Object.keys(pool.domainBits).filter(d=>pool.domainBits[d]>0); }
+let emitNonce=0, lastEmitNonce=0, lastOut=null, curFmt="hex";
+/* deterministic byte stream expanded from the emission — for rejection
+   sampling; same emission always yields the same formatted values */
+async function* expand(out){
+  let ctr=0;
+  while(true){
+    const block=await sha256(concat(out,enc.encode("fmt:"+(ctr++))));
+    for(const b of block) yield b;
+  }
+}
+async function draw(gen,limit,mod){ // rejection sampling: unbiased in [0,mod)
+  for(;;){ const {value:b}=await gen.next(); if(b<limit) return b%mod; }
+}
+const FMTNOTE={
+ hex:"raw emission bytes — this is what the transcript verifies",
+ b64:"Base64 of the same 32 bytes",
+ uuid:"UUID v4 — first 16 emission bytes, version/variant bits set",
+ int:"uniform integer 0–999,999 — rejection-sampled, no modulo bias",
+ dice:"ten d6 rolls — rejection-sampled from the emission stream",
+ lotto:"6 unique of 1–49 — rejection-sampled, order drawn"};
+async function formatOut(out,fmt){
+  if(fmt==="hex") return [...out].map(b=>b.toString(16).padStart(2,"0")).join("");
+  if(fmt==="b64") return btoa(String.fromCharCode(...out));
+  if(fmt==="uuid"){
+    const b=out.slice(0,16); b[6]=(b[6]&0x0f)|0x40; b[8]=(b[8]&0x3f)|0x80;
+    const h=[...b].map(x=>x.toString(16).padStart(2,"0")).join("");
+    return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+  }
+  const g=expand(out);
+  if(fmt==="int"){
+    let v=0; for(let i=0;i<3;i++){ v=(v<<8)|await draw(g,256,256); }
+    while(v>=16000000){ v=0; for(let i=0;i<3;i++) v=(v<<8)|await draw(g,256,256); }
+    return String(v%1000000).padStart(6,"0");
+  }
+  if(fmt==="dice"){
+    const r=[]; for(let i=0;i<10;i++) r.push(1+await draw(g,252,6));
+    return r.join(" · ");
+  }
+  if(fmt==="lotto"){
+    const s=new Set(); while(s.size<6) s.add(1+await draw(g,245,49));
+    return [...s].join(" · ");
+  }
+}
+async function renderOut(){
+  if(!lastOut) return;
+  hexEl.textContent=await formatOut(lastOut,curFmt);
+  const fn=document.getElementById("fmtnote");
+  fn.hidden=false; fn.textContent=FMTNOTE[curFmt];
+}
+document.querySelectorAll("#fmtseg button[data-f]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    curFmt=b.dataset.f;
+    document.querySelectorAll("#fmtseg button[data-f]").forEach(x=>x.classList.toggle("on",x===b));
+    renderOut(); // an encoding change, not a new emission — never marks stale
+  });
+});
+async function emit(nBytes){
+  const nonce=emitNonce++; lastEmitNonce=nonce;
+  let out=new Uint8Array(0), c=0;
+  while(out.length<nBytes){
+    out=concat(out, await sha256(concat(enc.encode("entropy-forge/public/v1\x00web"),
+      pool.buf, enc.encode(":"+nonce+":"+(c++)))));
+  }
+  return out.slice(0,nBytes);
+}
+
+/* ---------- plot: schematic graticule + real fetch points ---------- */
+const cv=document.getElementById("map"), cx=cv.getContext("2d");
+const INK="#17191B", DIMC="#6E726B", HAIR="#D2D4CD", SIGNAL="#EB4B12", MODULE="#F7F7F4";
+const marks=[]; let issTrail=[];
+/* view transform: k = zoom (1 = whole world), (cx,cy) = the normalized [0..1]
+   world point held at the canvas centre. Stored as fractions so it survives
+   resize / DPR changes — every draw derives pixels from the current box. */
+const view={k:1,cx:.5,cy:.5};
+function clampView(){
+  view.k=Math.max(1,Math.min(8,view.k));
+  const h=.5/view.k;                       // half the visible span, in world fractions
+  view.cx=Math.max(h,Math.min(1-h,view.cx));
+  view.cy=Math.max(h,Math.min(1-h,view.cy));
+}
+const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* the plot used to be a fixed 1060×560 bitmap stretched (or squashed) to fit
+   whatever CSS box the column gave it — on a typical ~430px-wide column that's
+   a >2x downscale, so the graticule, dots and 15px labels all rendered at
+   under half their intended size (the map read as oddly "zoomed out"), and the
+   byte-grid's fine 1px cell gaps (below) aliased into uneven/broken lines.
+   Match the backing store to the displayed box (× DPR) like the operator pad
+   already does, and draw in CSS-px so content is always native-sized. */
+// a canvas's bitmap fills its CONTENT box only — padding/border sit outside
+// it, so sizing off getBoundingClientRect (border box) overshoots by however
+// much padding+border the element has (the byte-grid canvas below has 12px
+// of top padding+border, which was enough to throw its cell grid off).
+function contentBox(el){
+  const cs=getComputedStyle(el);
+  return {w:el.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),
+          h:el.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)};
+}
+let mapW=cv.width, mapH=cv.height;
+function resizeMap(){
+  const {w,h}=contentBox(cv);
+  if(!w||!h) return;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  mapW=w; mapH=h;
+  cv.width=Math.round(mapW*dpr); cv.height=Math.round(mapH*dpr);
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  drawMap(performance.now());
+}
+function xy(lat,lon){
+  const nx=(lon+180)/360, ny=(90-lat)/180;
+  return [(nx-view.cx)*mapW*view.k+mapW/2, (ny-view.cy)*mapH*view.k+mapH/2];
+}
+let mapRaf=0;
+function scheduleMap(){ if(!mapRaf) mapRaf=requestAnimationFrame(t=>{mapRaf=0;drawMap(t);}); }
+// graticule spacing tightens as you zoom, so a reference line stays near every
+// cluster instead of the 30° grid drifting off-screen
+function gridStep(){ return view.k<2?30:view.k<4?15:view.k<6?10:5; }
+const lonTxt=l=>{ l=((l+540)%360)-180; return l?Math.abs(l)+"°"+(l>0?"E":"W"):"0°"; };
+const latTxt=l=>l?Math.abs(l)+"°"+(l>0?"N":"S"):"0°";
+function drawMap(now){
+  cx.clearRect(0,0,mapW,mapH);
+  cx.save(); cx.beginPath(); cx.rect(0,0,mapW,mapH); cx.clip();  // nothing spills past the plot box when zoomed
+  const step=gridStep();
+  cx.strokeStyle=HAIR; cx.lineWidth=1;
+  for(let lon=-180;lon<=180;lon+=step){ const x=xy(0,lon)[0];
+    if(x<0||x>mapW||lon===-180||lon===180) continue;
+    cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,mapH);cx.stroke(); }
+  for(let lat=-90+step;lat<=90-step;lat+=step){ const y=xy(lat,0)[1];
+    if(y<0||y>mapH) continue;
+    cx.beginPath();cx.moveTo(0,y);cx.lineTo(mapW,y);cx.stroke(); }
+  cx.strokeStyle="#B6B9B0";                       // equator + prime meridian, a touch darker
+  const [ex,ey]=xy(0,0);
+  if(ey>=0&&ey<=mapH){ cx.beginPath();cx.moveTo(0,ey);cx.lineTo(mapW,ey);cx.stroke(); }
+  if(ex>=0&&ex<=mapW){ cx.beginPath();cx.moveTo(ex,0);cx.lineTo(ex,mapH);cx.stroke(); }
+  // axis ticks: longitude along the bottom, latitude down the left edge — a
+  // faint bracket so a dot's coordinates are readable at any zoom
+  cx.font="7.5px ui-monospace,monospace"; cx.textBaseline="alphabetic";
+  cx.textAlign="center"; let lastLx=-1e9;
+  for(let lon=-180;lon<=180;lon+=step){ const x=xy(0,lon)[0];
+    if(x<11||x>mapW-11||x-lastLx<28) continue; lastLx=x;
+    const t=lonTxt(lon), w=cx.measureText(t).width;
+    cx.fillStyle=MODULE; cx.fillRect(x-w/2-2,mapH-11,w+4,10);   // hide the grid behind the label
+    cx.fillStyle=DIMC; cx.fillText(t,x,mapH-3); }
+  cx.textAlign="left"; cx.textBaseline="middle";
+  for(let lat=-90+step;lat<=90-step;lat+=step){ const y=xy(lat,0)[1];
+    if(y<9||y>mapH-13) continue;
+    const t=latTxt(lat), w=cx.measureText(t).width;
+    cx.fillStyle=MODULE; cx.fillRect(3,y-5,w+4,10);
+    cx.fillStyle=DIMC; cx.fillText(t,5,y); }
+  cx.textBaseline="alphabetic";
+  // ISS ground track: dotted ink line
+  cx.strokeStyle=INK; cx.lineWidth=1.5; cx.setLineDash([2,5]); cx.beginPath();
+  issTrail.forEach(([la,lo],i)=>{ const [x,y]=xy(la,lo); i?cx.lineTo(x,y):cx.moveTo(x,y); });
+  cx.stroke(); cx.setLineDash([]);
+  // fetch points: pulse ring on arrival, then the point PERSISTS until the
+  // next harvest round clears the plot (a reading stays until re-read)
+  let animating=false;
+  for(const m of marks){
+    const [x,y]=xy(m.lat,m.lon);
+    if(x<-20||x>mapW+20||y<-20||y>mapH+20) continue;   // off the current view — skip
+    const age=(now-m.t)/2500;
+    if(age<1&&!reduceMotion){
+      animating=true;
+      cx.globalAlpha=1-age*.85;
+      cx.strokeStyle=m.color; cx.lineWidth=1.5;
+      cx.beginPath(); cx.arc(x,y,4+age*15,0,7); cx.stroke();
+      cx.globalAlpha=1;
+    }
+    cx.fillStyle=m.color;
+    cx.beginPath(); cx.arc(x,y,3,0,7); cx.fill();
+    cx.font="600 15px ui-monospace,monospace"; cx.fillStyle=DIMC;
+    cx.fillText(m.label, Math.min(x+8,mapW-90), Math.max(y-8,16));
+  }
+  cx.restore();
+  if(animating) scheduleMap();
+}
+function mark(lat,lon,label,color,src){ marks.push({lat,lon,label,color,src,t:performance.now()});
+  scheduleMap(); }
+resizeMap();
+if("ResizeObserver" in window) new ResizeObserver(resizeMap).observe(cv);
+
+/* ---------- plot: zoom + pan (wheel · drag · pinch · buttons) ----------
+   clusters of fetch points sit on top of each other at world scale, so let the
+   operator zoom in. Everything is expressed against the fraction-based `view`,
+   so it stays correct across resizes. */
+const zBtn={in:document.getElementById("zin"),out:document.getElementById("zout")};
+function syncZoomUI(){                         // at 1× (fully zoomed out) let the page scroll through the map
+  cv.style.touchAction = view.k>1.001 ? "none" : "";
+}
+function ptr(e){ const r=cv.getBoundingClientRect();
+  return [ (e.clientX-r.left)*(mapW/r.width), (e.clientY-r.top)*(mapH/r.height) ]; }
+// zoom by `factor` while pinning the world point under (sx,sy) in place
+function zoomAt(sx,sy,factor){
+  const nx=(sx-mapW/2)/(mapW*view.k)+view.cx, ny=(sy-mapH/2)/(mapH*view.k)+view.cy;
+  view.k*=factor; clampView();
+  view.cx=nx-(sx-mapW/2)/(mapW*view.k); view.cy=ny-(sy-mapH/2)/(mapH*view.k);
+  clampView(); syncZoomUI(); hideInfo(); scheduleMap();
+}
+cv.addEventListener("wheel",e=>{ e.preventDefault();
+  const [sx,sy]=ptr(e); zoomAt(sx,sy,Math.exp(-e.deltaY*0.0015)); },{passive:false});
+cv.addEventListener("dblclick",e=>{ const [sx,sy]=ptr(e); zoomAt(sx,sy,1.8); });
+zBtn.in .addEventListener("click",()=>zoomAt(mapW/2,mapH/2,1.5));
+zBtn.out.addEventListener("click",()=>zoomAt(mapW/2,mapH/2,1/1.5));
+
+// pointer drag to pan; two pointers to pinch-zoom; a clean tap (no drag) inspects a dot
+const pts=new Map(); let pinchDist=0, tapPos=null, tapMoved=false;
+cv.addEventListener("pointerdown",e=>{ pts.set(e.pointerId,ptr(e));
+  cv.setPointerCapture(e.pointerId);
+  if(pts.size===1){ tapPos=ptr(e); tapMoved=false; if(view.k>1.001) cv.classList.add("panning"); }
+  else tapMoved=true;                                   // a multi-touch gesture is never a tap
+  if(pts.size===2){ const p=[...pts.values()]; pinchDist=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]); } });
+cv.addEventListener("pointermove",e=>{
+  if(!pts.has(e.pointerId)) return;
+  const prev=pts.get(e.pointerId), now=ptr(e); pts.set(e.pointerId,now);
+  if(tapPos&&Math.hypot(now[0]-tapPos[0],now[1]-tapPos[1])>6) tapMoved=true;
+  if(pts.size===2){                                    // pinch: zoom about the midpoint
+    const p=[...pts.values()], d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);
+    if(pinchDist>0) zoomAt((p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2,d/pinchDist);
+    pinchDist=d;
+  }else if(view.k>1.001){                              // single-pointer pan
+    hideInfo();
+    view.cx-=(now[0]-prev[0])/(mapW*view.k);
+    view.cy-=(now[1]-prev[1])/(mapH*view.k);
+    clampView(); scheduleMap();
+  } });
+function endPtr(e){
+  const wasTap = pts.has(e.pointerId) && pts.size===1 && !tapMoved && tapPos;
+  pts.delete(e.pointerId); if(pts.size<2) pinchDist=0;
+  if(pts.size===0) cv.classList.remove("panning");
+  if(wasTap && e.type==="pointerup") hitTest(tapPos[0],tapPos[1]);
+}
+cv.addEventListener("pointerup",endPtr);
+cv.addEventListener("pointercancel",endPtr);
+
+/* ---------- data-point inspector: tap a dot/label to see what it is ---------- */
+const infoEl=document.getElementById("mapinfo");
+function hideInfo(){ if(infoEl) infoEl.hidden=true; }
+function hitTest(sx,sy){
+  let best=null,bd=1e9;
+  for(const m of marks){ const [x,y]=xy(m.lat,m.lon);
+    if(x<-20||x>mapW+20||y<-20||y>mapH+20) continue;
+    const d=Math.hypot(x-sx,y-sy); if(d<bd){ bd=d; best=m; } }
+  if(best && bd<=18){ const [x,y]=xy(best.lat,best.lon); showInfo(best,x,y); }
+  else hideInfo();
+}
+function showInfo(m,sx,sy){
+  const la=+m.lat, lo=+m.lon;
+  const co=`${Math.abs(la).toFixed(2)}°${la>=0?"N":"S"}, ${Math.abs(lo).toFixed(2)}°${lo>=0?"E":"W"}`;
+  const desc=INFO[m.src]||"A live fetch coordinate, mixed into the entropy pool.";
+  const src=(m.src||"fetch").toUpperCase();
+  const showLabel=m.label && m.label.toUpperCase()!==src;   // don't repeat e.g. "ISS ISS"
+  infoEl.innerHTML=`<button type="button" class="mi-x" aria-label="Close detail">&times;</button>`
+    +`<div class="mi-h">${src}${showLabel?` <em>${m.label}</em>`:""}</div>`
+    +`<div class="mi-co">${co}</div><div class="mi-d">${desc}</div>`;
+  infoEl.hidden=false;
+  infoEl.querySelector(".mi-x").addEventListener("click",hideInfo);
+  // anchor beside the dot, clamped inside the plot box
+  const W=cv.clientWidth, H=cv.clientHeight, pw=infoEl.offsetWidth, ph=infoEl.offsetHeight;
+  let left=sx+12; if(left+pw>W-4) left=sx-pw-12; left=Math.max(4,Math.min(left,W-pw-4));
+  let top=sy+12;  if(top+ph>H-4)  top=sy-ph-12;   top=Math.max(4,Math.min(top,H-ph-4));
+  infoEl.style.left=left+"px"; infoEl.style.top=top+"px";
+}
+syncZoomUI();
+
+/* ---------- lanes ---------- */
+const INFO={
+ "weather":"<b>Open-Meteo</b> current conditions for 4 cities picked at random each round. We keep only the trailing decimals of temperature, pressure, wind and humidity — the digits forecast models can't pin down. Credit ≤32 bits.",
+ "quakes":"<b>USGS</b> all-earthquakes-past-hour feed: magnitude, depth and coordinate decimals plus event-time milliseconds. The ONLY lane permitted to extract timestamps — if every lane used its clock, all sources would secretly share one input. Credit ≤18 bits.",
+ "iss":"<b>wheretheiss.at</b> live ISS position and velocity. Orbits are computable from public TLE data, so despite the pretty ground track this is credited just 0.5 bits — honesty over theater.",
+ "mempool":"<b>mempool.space</b>: Bitcoin tip block hash + mempool tx count and vsize decimals. Block hashes are the strongest public bits on this page (miners can bias them only slightly). Credit ≤20 bits.",
+ "biosphere":"<b>GBIF</b> — the Global Biodiversity Information Facility. Each round samples live species-occurrence records (a specimen or sighting logged by a museum, herbarium or citizen naturalist) from a pool of 3.7 billion, keeping the trailing decimals of where each was found. Which records surface is genuinely unpredictable. Credit ≤12 bits.",
+ "river gauges":"<b>Open-Meteo Flood API</b> (GloFAS model): river discharge for 3 randomly chosen major rivers — the Amazon, Nile, Mekong and others. We keep the trailing decimals of the m³/s estimate. Rainfall-driven hydrology, independent of the weather lane. Credit ≤12 bits.",
+ "tide stations":"<b>NOAA CO-OPS</b> latest water level at 3 random coastal stations. The tide curve itself is predictable — we extract only the residual decimals around it. Credit ≤8 bits.",
+ "markets":"<b>CoinGecko</b> spot prices; last 3 digits of each quote, where market microstructure noise lives. Credit ≤6 bits.",
+ "hackernews":"<b>Hacker News</b> max item ID — the drift rate of global posting behavior. A human-activity domain, uncorrelated with geophysics. Credit ≤4 bits.",
+ "hk buses":"<b>KMB Hong Kong</b> route ETAs. We extract predicted arrival headways (ETA minus server-generated time) — model outputs, not our clock, so the one-clock rule holds. Credit ≤6 bits.",
+ "citizen sensors":"<b>Sensor.Community</b> — 15k+ hobbyist air-quality boxes worldwide; each round samples one random city's sensors for particulate/temp/humidity decimals. Credit ≤10 bits.",
+ "drand beacon":"<b>drand (League of Entropy)</b>: perfect randomness, published to the entire world — so 0 secret bits under this threat model. Its functional job here is a <b>freshness anchor</b>: mixing round N into the pool proves the printed output could not have been precomputed before round N existed. That, plus the pool fingerprint, is what makes a draw provably fair.",
+ "local jitter":"<b>Your device</b>: 256 samples of the OS CSPRNG folded with sub-millisecond timing jitter — private, device-local entropy an outside observer can't replay. Browsers clamp the clock for security, so the CSPRNG carries this non-API input. Credit ≤40 bits.",
+};
+const DOCS={
+ "weather":"https://open-meteo.com/en/docs",
+ "quakes":"https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php",
+ "iss":"https://wheretheiss.at/w/developer",
+ "mempool":"https://mempool.space/docs/api/rest",
+ "biosphere":"https://techdocs.gbif.org/en/openapi/",
+ "river gauges":"https://open-meteo.com/en/docs/flood-api",
+ "tide stations":"https://api.tidesandcurrents.noaa.gov/api/prod/",
+ "markets":"https://www.coingecko.com/en/api",
+ "hackernews":"https://github.com/HackerNews/API",
+ "hk buses":"https://data.gov.hk/en-data/dataset/hk-td-tis_21-etakmb",
+ "citizen sensors":"https://github.com/opendata-stuttgart/meta/wiki/EN-APIs",
+ "drand beacon":"https://drand.love",
+};
+const laneEl={};
+const canHover=matchMedia("(hover:hover)").matches;   // pointer devices show info on hover
+function lane(name,domain){
+  const el=document.createElement("div"); el.className="lane";
+  el.innerHTML=`<div class="dot"></div><div><span class="lname">${name}</span>
+    <span class="ldom">${domain}</span></div><div class="lval">standby</div>
+    <div class="laneinfo">${INFO[name]||""}${DOCS[name]?` <a class="apilink" href="${DOCS[name]}" target="_blank" rel="noopener">API docs →</a>`:""}</div>`;
+  el.tabIndex=0; el.setAttribute("role","button"); el.setAttribute("aria-expanded","false");
+  const toggle=()=>{ el.classList.toggle("open");
+    el.setAttribute("aria-expanded",el.classList.contains("open")); };
+  // on hover devices the popover follows the cursor — a click must NOT pin it open;
+  // touch devices (no hover) still tap-to-toggle
+  el.addEventListener("click",ev=>{ if(ev.target.closest(".apilink")||canHover) return; toggle(); });
+  el.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();toggle();} });
+  document.getElementById("lanes").appendChild(el); laneEl[name]=el; return el;
+}
+function laneState(name,state,html){ const el=laneEl[name];
+  const open=el.classList.contains("open");
+  el.className="lane "+state+(open?" open":"");
+  if(html!==undefined){ const v=el.querySelector(".lval"); v.innerHTML=html;
+    if(state==="ok"){ v.classList.remove("tick"); void v.offsetWidth; v.classList.add("tick"); } }
+  if(state==="ok"||state==="fail")
+    document.getElementById("sr").textContent=name+(state==="ok"?" received":" unreachable"); }
+const hl=d=>`<em>${d}</em>`;
+
+/* ---------- sources: every one fetches REAL data ---------- */
+const CITIES={OSL:[59.91,10.75],TYO:[35.68,139.69],NBO:[-1.29,36.82],SYD:[-33.87,151.21],
+  LIM:[-12.05,-77.04],REK:[64.15,-21.94],ANC:[61.22,-149.9],CPT:[-33.92,18.42],
+  HNL:[21.31,-157.86],SIN:[1.35,103.82],NUK:[64.18,-51.72],MEX:[19.43,-99.13]};
+
+async function j(url){ if(demoMode) return demoPayload(url);
+  const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),9000);
+  try{
+    const r=await fetch(url,{signal:ctl.signal});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return await r.json();
+  }finally{ clearTimeout(t); }
+}
+/* turn a fetch failure into a short human reason, so a lane that goes dark
+   says WHY (timeout · HTTP 4xx/5xx · blocked = CORS/offline) instead of a
+   generic "unreachable" — this is how we diagnose flaky feeds live */
+function failReason(e){
+  if(!e) return "blocked";
+  if(e.name==="AbortError") return "timeout";
+  if(/^HTTP /.test(e.message)) return e.message;
+  if(e instanceof TypeError) return "blocked (CORS/offline)";
+  return (e.message||"error").slice(0,28);
+}
+
+/* ---------- DEMO REPLAY: sample dataset, honestly labeled ----------
+   Mirrors the FakeClient pattern from the Python test suite. Values are
+   plausible synthetic readings so the full pipeline/UI can be exercised
+   in sandboxed previews. Never presented as live data. */
+let demoMode=false, advMode=false, sndOn=true, actx=null;   // audio on by default; MUTE toggle inverts
+const advFrozen={};
+function geiger(domain,strong){
+  if(!sndOn) return;
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(), g=actx.createGain();
+    let f=380; for(const ch of domain) f=(f*31+ch.charCodeAt(0))%1200+380;
+    o.type="square"; o.frequency.value=strong?880:f;
+    g.gain.setValueAtTime(strong?0.08:0.045,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+(strong?0.14:0.03));
+    o.connect(g).connect(actx.destination);
+    o.start(); o.stop(actx.currentTime+(strong?0.15:0.035));
+  }catch(e){}
+}
+const rnd=(a,b,dp=1)=>+(a+Math.random()*(b-a)).toFixed(dp);
+const rhex=n=>[...crypto.getRandomValues(new Uint8Array(n))].map(b=>b.toString(16).padStart(2,"0")).join("");
+let demoIssLon=-160, demoRound=4210000;
+function demoPayload(url){
+  if(advMode){ // adversary: these two lanes replay byte-identical responses
+    for(const k of ["coingecko","sensor.community"]) if(url.includes(k)){
+      if(!advFrozen[k]) advFrozen[k]=JSON.stringify(realDemo(url));
+      return JSON.parse(advFrozen[k]);
+    }
+  }
+  return realDemo(url);
+}
+function realDemo(url){
+  if(url.includes("/v1/forecast")) return {current:{temperature_2m:rnd(-8,31),
+    surface_pressure:rnd(982,1034),wind_speed_10m:rnd(0,14),relative_humidity_2m:rnd(22,96,0)}};
+  if(url.includes("earthquake.usgs")) return {features:Array.from({length:4},()=>(
+    {properties:{mag:rnd(0.6,4.8),time:Date.now()-Math.floor(Math.random()*3.4e6)},
+     geometry:{coordinates:[rnd(-180,180,4),rnd(-58,64,4),rnd(2,120)]}}))};
+  if(url.includes("wheretheiss")){ demoIssLon=(demoIssLon+7)%360;
+    return {latitude:rnd(-51,51,4),longitude:demoIssLon-180,velocity:rnd(27540,27620),altitude:rnd(408,422)}; }
+  if(url.includes("/api/mempool")) return {count:41000+Math.floor(Math.random()*9000),
+    vsize:14e6+Math.floor(Math.random()*9e6)};
+  if(url.includes("gbif")) return {results:Array.from({length:6},()=>(
+    {decimalLatitude:rnd(-58,64,4),decimalLongitude:rnd(-180,180,4),
+     key:46e7+Math.floor(Math.random()*2e6),
+     countryCode:["US","BR","AU","FR","ZA","IN","NO"][Math.floor(Math.random()*7)]}))};
+  if(url.includes("flood-api")) return {daily:{time:["demo"],river_discharge:[rnd(0.4,48000,3)]}};
+  if(url.includes("tidesandcurrents")) return {data:[{v:rnd(0.1,3.2,3).toFixed(3)}]};
+  if(url.includes("coingecko")) return {bitcoin:{usd:rnd(6e4,13e4,2)},
+    ethereum:{usd:rnd(1800,6200,2)},solana:{usd:rnd(80,340,3)}};
+  if(url.includes("maxitem")) return 46_000_000+Math.floor(Math.random()*2e5);
+  if(url.includes("etabus")){ const now=Date.now();
+    return {generated_timestamp:new Date(now).toISOString(),
+      data:Array.from({length:6},(_,i)=>({eta:new Date(now+ (i+1)*rnd(180,900,0)*1000+Math.floor(Math.random()*60000)).toISOString()}))}; }
+  if(url.includes("sensor.community")){
+    const m=url.match(/area=([\d.\-]+),([\d.\-]+)/), la=+(m?.[1]??52.5), lo=+(m?.[2]??13.4);
+    return Array.from({length:6},()=>({location:{latitude:String(la+rnd(-0.05,0.05,4)),
+      longitude:String(lo+rnd(-0.05,0.05,4))},
+      sensordatavalues:Array.from({length:3},()=>({value:String(rnd(0,60,2))}))})); }
+  if(url.includes("drand")) return {round:++demoRound,randomness:rhex(32)};
+  throw new Error("no demo data for "+url);
+}
+
+const SOURCES=[
+ {name:"weather",domain:"atmosphere",async run(){
+   const pick=[...Object.keys(CITIES)].sort(()=>crypto.getRandomValues(new Uint8Array(1))[0]-128).slice(0,4);
+   let digits="",shown=[];
+   for(const c of pick){ const [la,lo]=CITIES[c];
+     const d=await j(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&current=temperature_2m,surface_pressure,wind_speed_10m,relative_humidity_2m`);
+     const cur=d.current, ds=tail(cur.temperature_2m)+tail(cur.surface_pressure)+tail(cur.wind_speed_10m)+tail(cur.relative_humidity_2m);
+     digits+=ds; shown.push(`${c} ${cur.temperature_2m}° ${cur.surface_pressure}hPa${hl(ds)}`);
+     mark(la,lo,c,SIGNAL,"weather");
+   }
+   return {display:shown.join(" · "),digits,bits:Math.min(pick.length*8,32)};
+ }},
+ {name:"quakes",domain:"geophysics",async run(){
+   const d=await j("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson");
+   const f=d.features.slice(0,6); if(!f.length) return{display:"no quakes this hour",digits:"",bits:0};
+   let digits="";
+   for(const q of f){ const [lo,la,dep]=q.geometry.coordinates,m=q.properties.mag;
+     const ds=tail(m)+tail(dep)+tail(la,3)+tail(q.properties.time,3);   // designated timestamp source
+     digits+=ds; mark(la,lo,"M"+(m??"?"),SIGNAL,"quakes"); }
+   return {display:`${f.length} quakes, latest M${f[0].properties.mag} @ ${f[0].geometry.coordinates[2]}km ${hl(digits.slice(0,14))}…`,
+           digits,bits:Math.min(f.length*3,18)};
+ }},
+ {name:"iss",domain:"orbital",async run(){
+   const d=await j("https://api.wheretheiss.at/v1/satellites/25544");
+   issTrail.push([d.latitude,d.longitude]); if(issTrail.length>40)issTrail.shift();
+   const ds=tail(d.latitude,3)+tail(d.longitude,3)+tail(d.velocity,3);
+   mark(d.latitude,d.longitude,"ISS",INK,"iss");
+   return {display:`${d.latitude.toFixed(2)},${d.longitude.toFixed(2)} @ ${Math.round(d.velocity)}km/h ${hl(ds)}`,
+           digits:ds,bits:0.5};  // computable from TLEs → near-zero credit, honestly
+ }},
+ {name:"mempool",domain:"blockchain",async run(){
+   const mp=await j("https://mempool.space/api/mempool");
+   // tip/hash returns plain text (hex string), not JSON
+   const tip=demoMode?rhex(32):await fetch("https://mempool.space/api/blocks/tip/hash")
+     .then(r=>r.ok?r.text():null).catch(()=>null);
+   const ds=tail(mp.count,4)+tail(mp.vsize,4);
+   return {display:`${mp.count} tx waiting · tip …${tip?String(tip).slice(-8):"?"} ${hl(ds)}`,
+           digits:ds+(tip||""),bits:tip?20:5};
+ }},
+ {name:"biosphere",domain:"biosphere",async run(){
+   // GBIF species-occurrence records for a random year/month — which specimens
+   // surface is unpredictable; we keep the trailing decimals of WHERE each was
+   // found. Small offset keeps the query fast; hasGeospatialIssue drops null-island.
+   const yr=1980+Math.floor(Math.random()*46), mo=1+Math.floor(Math.random()*12),
+         off=Math.floor(Math.random()*40);
+   const d=await j(`https://api.gbif.org/v1/occurrence/search?hasCoordinate=true&hasGeospatialIssue=false&year=${yr}&month=${mo}&limit=6&offset=${off}`);
+   const res=(d.results||[]).filter(r=>r.decimalLatitude!=null&&r.decimalLongitude!=null&&(r.decimalLatitude||r.decimalLongitude));
+   if(!res.length) return{display:"no occurrences this page",digits:"",bits:0};
+   let digits="",m=0;
+   for(const r of res){
+     digits+=tail(r.decimalLatitude,4)+tail(r.decimalLongitude,4)+tail(r.key,3);
+     if(m<5){ mark(r.decimalLatitude,r.decimalLongitude,r.countryCode||"BIO",SIGNAL,"biosphere"); m++; }
+   }
+   return {display:`${res.length} species records worldwide ${hl(digits.slice(0,12))}…`,
+           digits,bits:Math.min(res.length*2,12)};
+ }},
+ {name:"river gauges",domain:"hydrology",async run(){
+   // Open-Meteo Flood API (GloFAS): river discharge for 3 randomly chosen rivers.
+   const RIVERS={AMZ:[-3.13,-60.02],MSS:[30.44,-91.19],NIL:[15.62,32.48],GNG:[25.30,83.01],
+     YTZ:[30.59,114.30],DAN:[45.43,28.72],CGO:[-4.30,15.30],MEK:[11.56,104.93],
+     VLG:[48.70,44.51],ZAM:[-16.52,28.76]};
+   const pick=[...Object.keys(RIVERS)].sort(()=>crypto.getRandomValues(new Uint8Array(1))[0]-128).slice(0,3);
+   let digits="",shown=[];
+   for(const k of pick){ const [la,lo]=RIVERS[k];
+     const d=await j(`https://flood-api.open-meteo.com/v1/flood?latitude=${la}&longitude=${lo}&daily=river_discharge&forecast_days=1`);
+     const v=d.daily?.river_discharge?.[0]; if(v==null) continue;
+     digits+=tail(v,3); shown.push(`${k} ${v} m³/s${hl(tail(v,3))}`);
+     mark(la,lo,k,SIGNAL,"river gauges");
+   }
+   return {display:shown.join(" · ")||"no discharge data",digits,bits:Math.min(pick.length*3,12)};
+ }},
+ {name:"tide stations",domain:"ocean",async run(){
+   const TIDES={"9414290":["SF",37.81,-122.47],"8443970":["BOS",42.35,-71.05],
+     "8723214":["MIA",25.73,-80.16],"9447130":["SEA",47.60,-122.34],
+     "8518750":["NYC",40.70,-74.01],"1612340":["HNL",21.31,-157.87]};
+   const pick=[...Object.keys(TIDES)].sort(()=>crypto.getRandomValues(new Uint8Array(1))[0]-128).slice(0,3);
+   let digits="",shown=[];
+   for(const st of pick){
+     const d=await j(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&station=${st}&product=water_level&datum=MLLW&units=metric&time_zone=gmt&format=json`);
+     const v=d.data?.[0]?.v; if(v==null) continue;
+     const [label,la,lo]=TIDES[st];
+     digits+=tail(v,3); shown.push(`${label} ${v}m${hl(tail(v,3))}`);
+     mark(la,lo,label,SIGNAL,"tide stations");
+   }
+   return {display:shown.join(" · ")||"no tide data",digits,bits:Math.min(pick.length*2,8)};
+ }},
+ {name:"markets",domain:"markets",async run(){
+   const d=await j("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&precision=6");
+   let digits="",shown=[];
+   for(const[c,q]of Object.entries(d)){const ds=tail(q.usd,3);digits+=ds;
+     shown.push(`${c.slice(0,3).toUpperCase()} ${q.usd}${hl(ds)}`)}
+   return {display:shown.join(" · "),digits,bits:Math.min(Object.keys(d).length*2,6)};
+ }},
+ {name:"hackernews",domain:"human",async run(){
+   const m=await j("https://hacker-news.firebaseio.com/v0/maxitem.json");
+   const ds=tail(m,4);
+   return {display:`max item #${m} ${hl(ds)}`,digits:ds,bits:4};
+ }},
+ {name:"hk buses",domain:"transit",async run(){
+   // KMB route ETAs. We extract predicted headways (eta − generated time),
+   // which are model outputs — NOT our clock, so the timestamp rule holds.
+   const ROUTES=["1","1A","5C","6","11","104","118","260","960","968"];
+   const route=ROUTES[crypto.getRandomValues(new Uint8Array(1))[0]%ROUTES.length];
+   const d=await j(`https://data.etabus.gov.hk/v1/transport/kmb/route-eta/${route}/1`);
+   const gen=Date.parse(d.generated_timestamp);
+   let digits="",n=0;
+   for(const e of (d.data||[]).slice(0,10)){
+     if(!e.eta) continue;
+     // headway in SECONDS — live ETAs are whole-minute (…:00.000), so the raw
+     // millisecond delta always ends in 000; the second-count is where the signal is
+     digits+=tail(Math.round((Date.parse(e.eta)-gen)/1000),3); n++;
+   }
+   if(!n) return{display:"no ETAs right now",digits:"",bits:0};
+   mark(22.32,114.17,"HKG",SIGNAL,"hk buses");
+   return {display:`route ${route} · ${n} live arrival predictions ${hl(digits.slice(0,12))}…`,
+           digits,bits:Math.min(n,6)};
+ }},
+ {name:"citizen sensors",domain:"citizen",async run(){
+   const AREAS={BER:[52.52,13.40],OSL:[59.91,10.75],AMS:[52.37,4.90],
+     SOF:[42.70,23.32],STU:[48.78,9.18],VIE:[48.21,16.37]};
+   const pick=[...Object.keys(AREAS)].sort(()=>crypto.getRandomValues(new Uint8Array(1))[0]-128)[0];
+   const [la,lo]=AREAS[pick];
+   const d=await j(`https://data.sensor.community/airrohr/v1/filter/area=${la},${lo},8`);
+   const items=(d||[]).slice(0,8); if(!items.length) return{display:"no sensors in "+pick,digits:"",bits:0};
+   let digits="",m=0;
+   for(const it of items){
+     for(const sv of (it.sensordatavalues||[]).slice(0,3)) digits+=tail(sv.value,2);
+     const L=it.location;
+     if(L&&m<5){ mark(+L.latitude,+L.longitude,"SENSE",SIGNAL,"citizen sensors"); m++; }
+   }
+   return {display:`${items.length} hobbyist sensors near ${pick} ${hl(digits.slice(0,12))}…`,
+           digits,bits:Math.min(items.length*1.5,10)};
+ }},
+ {name:"drand beacon",domain:"beacon",async run(){
+   const d=await j("https://api.drand.sh/public/latest");
+   // Published to the entire world → 0 secret bits. Its real job: a public
+   // FRESHNESS ANCHOR — mixing round N proves the output postdates round N.
+   lastDrand=d.round;
+   return {display:`round ${d.round} · freshness anchor · ${hl("0 bits — publicly known")}`,
+           digits:String(d.randomness||""),bits:0};
+ }},
+ {name:"local jitter",domain:"local",async run(){
+   // Private, device-local entropy an outside observer can't replay: the OS
+   // CSPRNG folded with sub-millisecond scheduler/timing jitter. Browsers clamp
+   // performance.now() (a Spectre mitigation), so raw back-to-back clock deltas
+   // collapse to zero on their own — mixing the CSPRNG keeps this non-API input
+   // genuinely live every round instead of a string of zeros.
+   const rnd=crypto.getRandomValues(new Uint8Array(256));
+   let ds="",prev=performance.now(),spin=0;
+   for(let i=0;i<256;i++){
+     for(let k=0;k<600;k++) spin+=(k^i);              // a little work so the clock can advance
+     const n=performance.now(),dt=Math.abs(n-prev); prev=n;
+     ds+=(rnd[i]+Math.round(dt*1e3)+spin)%10;         // CSPRNG byte + timing jitter + work
+     if((i&31)===0) await 0;
+   }
+   return {display:`256 device-local samples ${hl(ds.slice(0,16))}…`,digits:ds,bits:40};
+ }},
+];
+SOURCES.forEach(s=>lane(s.name,s.domain));
+/* domain → source name, so the LEDGER labels match the 02 SOURCES lane names */
+const DOMNAME={operator:"operator"};
+SOURCES.forEach(s=>{ DOMNAME[s.domain]=s.name; });
+
+/* ---------- domain chips + pool UI ---------- */
+const chips={};
+for(const d of DOMAINS){ const c=document.createElement("span"); c.className="dchip";
+  c.textContent=DLABEL[d]; c.title=d; document.getElementById("domchips").appendChild(c); chips[d]=c; }
+for(let n=DOMAINS.length;n%7;n++){ const c=document.createElement("span");
+  c.className="dchip fill"; c.setAttribute("aria-hidden","true");
+  document.getElementById("domchips").appendChild(c); }
+let _lastBits=0;
+function paintPool(){
+  const bits=creditedBits(), tgt=TARGET;
+  document.getElementById("fill").style.width=Math.min(100,bits/tgt*100)+"%";
+  const bitsEl=document.getElementById("bits");
+  bitsEl.textContent=Math.round(bits)+" bits credited";
+  if(bits>_lastBits){ bitsEl.classList.add("gain");
+    clearTimeout(bitsEl._t); bitsEl._t=setTimeout(()=>bitsEl.classList.remove("gain"),450); }
+  _lastBits=bits;
+  const ds=domains();
+  for(const d of DOMAINS){
+    // a chip goes black (lit) on ANY successful fetch — a reached lane reads as
+    // success. Whether it actually credited entropy or landed 0 bits (a
+    // duplicate/stale fetch, or a domain over the 40% cap) is still honest in
+    // the hover tooltip and fully accounted for in LEDGER / TAPE.
+    const lit=!!pool.seen[d];
+    const credited=ds.includes(d);
+    chips[d].classList.toggle("lit",lit);
+    chips[d].classList.remove("seen");
+    chips[d].title=d==="beacon"
+      ?"beacon — freshness anchor"+(lit?" received":"")+" · 0 secret bits by design"
+      :!lit?d
+      :credited?d+" — credited"
+      :d+" — data received · 0 bits credited under this threat model";
+  }
+  const ok=ds.length>=MINDOM&&bits>=tgt;
+  const ps=document.getElementById("poolstate");
+  ps.textContent=ok?"READY":`need ≥${MINDOM} domains (${ds.length}) + ${tgt} bits`;
+  ps.classList.toggle("ready",ok);
+  const tl=document.getElementById("tgtlabel"); if(tl) tl.textContent="target "+tgt;
+  renderView();
+  return ok;
+}
+/* any new entropy (harvest round, pad stroke, or a lowered EMIT TARGET newly
+   qualifying an existing pool) should print immediately — no manual re-print
+   step, and no stale/SUPERSEDED state for the user to notice first. */
+async function autoPrintIfReady(ready){
+  if(autoReemitting||!ready||!(poolVersion>printedVersion)) return;
+  autoReemitting=true;
+  try{
+    await emitFromPool(receipt.classList.contains("printed")
+      ?"pool changed — 32 bytes re-printed automatically"
+      :"32 bytes emitted from current pool — no new fetches");
+  } finally{ autoReemitting=false; }
+}
+
+/* ---------- inspector: three honest views of the same machinery ----------
+   MAP·POOL is the combined default (world plot on top, byte grid below);
+   LEDGER and TAPE are the two other tabs. */
+let curView="plot";
+const VIEWS={plot:document.getElementById("vplot"),
+  ledger:document.getElementById("vledger"),
+  tape:document.getElementById("vtape")};
+const HINTS={plot:"world plot above (scroll to zoom · tap a dot for detail) · byte buffer below, with a verifiable SHA-256 fingerprint",
+  ledger:"live accounting — credited vs raw per domain, 40% haircut drawn in hatch",
+  tape:"chart recorder — raw digits exactly as absorbed, newest first"};
+// scope to the inspector — the OUTPUT format strip also carries the .viewseg class
+document.querySelectorAll("#m-inspector .viewseg button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    curView=b.dataset.v;
+    document.querySelectorAll("#m-inspector .viewseg button").forEach(x=>x.classList.toggle("on",x===b));
+    for(const k in VIEWS) VIEWS[k].hidden=(k!==curView);
+    document.getElementById("viewhint").textContent=HINTS[curView];
+    renderView(); if(curView==="plot") scheduleMap();
+  });
+});
+function renderView(){
+  if(curView==="ledger") renderLedger();
+  else if(curView==="tape") renderTape();
+  else if(curView==="plot") renderPoolView();
+}
+function renderLedger(){
+  const entries=Object.entries(pool.domainBits).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const el=VIEWS.ledger;
+  if(!entries.length){ el.innerHTML='<div class="levents">no credits yet — run a harvest, then audit the books here</div>'; return; }
+  const totalRaw=entries.reduce((s,[,v])=>s+v,0), cap=.4*totalRaw;
+  const maxRaw=Math.max(...entries.map(([,v])=>v),cap);
+  let html="";
+  for(const [d,raw] of entries){
+    const cr=Math.min(raw,cap), crW=cr/maxRaw*100;
+    const dcW=raw>cap?(raw-cap)/maxRaw*100:0;
+    html+=`<div class="lrow"><span class="lname-l" title="${d}">${DOMNAME[d]||DLABEL[d]}</span>
+      <div class="lbar"><div class="cr" style="width:${crW}%"></div>
+      ${dcW?`<div class="dc" style="left:${crW}%;width:${dcW}%"></div>`:""}</div>
+      <span class="num">${Math.round(cr)} cr / ${Math.round(raw)} raw</span></div>`;
+  }
+  const ev=pool.events.slice(-6);
+  html+=`<div class="levents"><b>rules:</b> solid = credited · hatched = above the 40% domain cap, discited to 0 · duplicates credit 0<br><b>health events:</b> ${ev.length?ev.join(" · "):"none this session"}</div>`;
+  el.innerHTML=html;
+}
+function renderTape(){
+  const el=VIEWS.tape;
+  if(!tapeLog.length){ el.innerHTML='<div class="levents">tape blank — every absorbed sample prints here, newest first</div>'; return; }
+  el.innerHTML=tapeLog.slice(0,24).map(e=>
+    `<div class="trow"><b>${e.name}</b>`+
+    (e.priv?`<em class="priv">REDACTED — private input, never displayed</em>`
+           :`<em>${e.preview}…</em>`)+
+    `<span>${e.bits?Math.round(e.bits)+"b":"0b"}</span></div>`).join("");
+}
+let fpTok=0;
+/* same fixed-bitmap-vs-CSS-box mismatch as the map (see resizeMap above): the
+   grid's 1px cell gaps were being downscaled by a non-integer ratio, which
+   aliases into uneven/missing lines. Back it with the real display size × DPR. */
+const poolcv=document.getElementById("poolcv"), pc2=poolcv.getContext("2d");
+let poolcvW=poolcv.width, poolcvH=poolcv.height;
+function resizePoolcv(){
+  const {w,h}=contentBox(poolcv);
+  if(!w||!h) return;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  poolcvW=w; poolcvH=h;
+  poolcv.width=Math.round(poolcvW*dpr); poolcv.height=Math.round(poolcvH*dpr);
+  pc2.setTransform(dpr,0,0,dpr,0,0);
+  renderPoolView();
+}
+function renderPoolView(){
+  pc2.clearRect(0,0,poolcvW,poolcvH);
+  const cols=64, size=poolcvW/cols, rows=Math.floor(poolcvH/size);
+  const show=pool.buf.slice(-cols*rows);
+  for(let i=0;i<show.length;i++){
+    const x=(i%cols)*size, y=Math.floor(i/cols)*size;
+    pc2.fillStyle=`rgba(23,25,27,${0.05+0.9*show[i]/255})`;
+    pc2.fillRect(x,y,size-1,size-1);
+  }
+  const fp=document.getElementById("poolfp");
+  if(!pool.buf.length){ fp.textContent="pool empty — run a harvest"; return; }
+  const my=++fpTok;
+  sha256(pool.buf).then(h=>{ if(my!==fpTok) return;
+    fp.innerHTML=`${pool.buf.length} bytes (last ${show.length} shown) · fingerprint <b>${[...h].map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,32)}…</b><br>SHA-256 of the raw buffer — publish before a draw to prove it wasn't cherry-picked.`;
+  });
+}
+resizePoolcv();
+if("ResizeObserver" in window) new ResizeObserver(resizePoolcv).observe(poolcv);
+
+/* ---------- harvest round ---------- */
+let cdTimer=null;
+const go=document.getElementById("go"), again=document.getElementById("again"),
+      status=document.getElementById("status"), hexEl=document.getElementById("hex"),
+      receipt=document.getElementById("receipt");
+/* single emit path — used by a ready harvest round, a pool completed (or
+   extended) on the operator pad, and auto re-prints triggered by
+   autoPrintIfReady(). Emits 32 bytes, sounds the "done" ding, renders the
+   format, and records the receipt. */
+async function emitFromPool(msg){
+  const out=await emit(32); geiger("emit",true);
+  lastOut=out; await renderOut();
+  receipt.classList.add("printed"); markPrinted(out);
+  if(msg) status.textContent=msg;
+  return out;
+}
+/* AUTO-HARVEST switches itself off the moment the pool reaches an output — it
+   accumulates rounds only until the emit target is met, then stops. */
+function stopAuto(){
+  autoHarvest=false; clearTimeout(autoTimer);
+  const ab=document.getElementById("auto"); if(ab) ab.checked=false;
+}
+async function round(){
+  go.disabled=again.disabled=true;
+  status.textContent="harvesting…";
+  marks.length=0; hideInfo(); scheduleMap();  // previous round's points clear as the new scrape begins
+  let remoteFails=0;
+  await Promise.all(SOURCES.map(async s=>{
+    laneState(s.name,"fetching","fetching…");
+    try{
+      const r=await s.run();
+      await absorb(s.name,s.domain,r.digits+"|"+r.display.replace(/<[^>]+>/g,""),r.bits);
+      // narrow lane: just the extracted digits, in signal — any successful fetch reads as live
+      laneState(s.name,"ok", `<em>${r.digits||"—"}</em>`);
+      paintPool();
+    }catch(e){
+      if(s.domain!=="local") remoteFails++;
+      laneState(s.name,"fail","unreachable — "+failReason(e));
+    }
+  }));
+  const ready=paintPool();
+  if(!demoMode&&remoteFails>=SOURCES.length-1){
+    status.innerHTML="<b>All remote sources blocked.</b> This looks like a sandboxed "+
+      "preview (in-app viewers block outside requests). Host this file on the web "+
+      "(GitHub Pages / app.netlify.com/drop) and open it in a browser for live data.";
+  }else if(ready){
+    let msg=(demoMode?"[DEMO REPLAY — sample dataset] ":"")+
+      "32 bytes emitted from "+domains().length+" domains · "+
+      (pool.events.length?pool.events.length+" health events":"all sources fresh");
+    if(autoHarvest){ stopAuto(); msg+=" · target reached, auto-harvest stopped"; }
+    await emitFromPool(msg);
+  }else{
+    status.textContent="pool not ready — harvest another round to add entropy";
+  }
+  go.hidden=true; again.hidden=false;
+  if(demoMode){ again.disabled=false; if(autoHarvest){ clearTimeout(autoTimer); autoTimer=setTimeout(maybeAuto,1400); } }
+  else{ // API politeness: honor provider caching, don't hammer keyless tiers
+    let cd=15; again.disabled=true; again.textContent="RECHARGING · "+cd+"s";
+    again.style.setProperty("--p",(cd/15*100)+"%");
+    cdTimer=setInterval(()=>{ cd--;
+      if(cd<=0){ clearInterval(cdTimer); again.disabled=false;
+        again.textContent="HARVEST ANOTHER ROUND"; again.style.removeProperty("--p");
+        maybeAuto(); }   // AUTO-HARVEST: fire the next round the moment the recharge clears
+      else{ again.textContent="RECHARGING · "+cd+"s";
+        again.style.setProperty("--p",(cd/15*100)+"%"); } },1000);
+  }
+}
+/* AUTO-HARVEST: start the next round if the mode is on and the instrument is idle
+   (button visible + enabled). Re-entry is blocked because round() disables the
+   buttons immediately, so this can't stack. */
+function maybeAuto(){
+  if(!autoHarvest) return;
+  const btn=go.hidden?again:go;
+  if(btn && !btn.hidden && !btn.disabled) round();
+}
+go.addEventListener("click",round);
+again.addEventListener("click",round);
+
+function drawSeal(out){
+  const cv=document.getElementById("seal"), c=cv.getContext("2d");
+  c.clearRect(0,0,72,72); c.fillStyle="#17191B";
+  // 8x8 glyph, left half from output bits, mirrored — humans compare shapes, not hex
+  for(let r=0;r<8;r++) for(let col=0;col<4;col++){
+    const bit=(out[r>>1]>>((r%2)*4+col))&1;
+    if(bit){ c.fillRect(col*9,r*9,8,8); c.fillRect((7-col)*9,r*9,8,8); }
+  }
+}
+function markPrinted(out){
+  printedVersion=poolVersion;
+  if(out){ drawSeal(out);
+    const outHex=[...out].map(b=>b.toString(16).padStart(2,"0")).join("");
+    sha256(pool.buf).then(fp=>{
+      currentTranscript={v:1,kind:"entropy-forge/transcript",
+        mode:demoMode?"demo":"live",ts:new Date().toISOString(),
+        tag:"entropy-forge/public/v1",ctx:"web",
+        drandRound:lastDrand,nonce:lastEmitNonce,
+        fingerprint:[...fp].map(b=>b.toString(16).padStart(2,"0")).join(""),
+        output:outHex,entries:trLog.slice()};
+      document.getElementById("transcriptbtn").hidden=false;
+    });
+  }
+  const rf=document.getElementById("rfresh");
+  if(lastDrand!=null){
+    rf.hidden=false;
+    rf.innerHTML=(demoMode?"[demo] ":"")+
+      "freshness anchor · drand round <b>"+lastDrand+"</b> — output not precomputable before this round";
+  }else rf.hidden=true;
+}
+document.getElementById("transcriptbtn").addEventListener("click",()=>{
+  if(!currentTranscript) return;
+  const json=JSON.stringify(currentTranscript,null,1);
+  try{
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([json],{type:"application/json"}));
+    a.download="entropy-forge-transcript-"+currentTranscript.nonce+".json";
+    a.click(); URL.revokeObjectURL(a.href);
+    status.textContent="transcript exported — verify offline: entropy-forge verify <file>";
+  }catch(e){
+    const ta=document.getElementById("tsout"); ta.hidden=false; ta.value=json; ta.select();
+    status.textContent="download blocked here — transcript shown below, copy it out";
+  }
+});
+/* MUTE toggle: audio is ON by default, so sndOn is the INVERSE of the checkbox
+   (checked = muted). The Geiger clicks only ever fire during a harvest, which is
+   a user gesture, so the AudioContext still resumes cleanly. */
+document.getElementById("snd").addEventListener("change",e=>{ sndOn=!e.target.checked; });
+document.getElementById("auto").addEventListener("change",e=>{
+  autoHarvest=e.target.checked;
+  if(autoHarvest){ maybeAuto(); status.textContent="auto-harvest on — harvesting until the pool reaches the emit target"; }
+  else{ clearTimeout(autoTimer); status.textContent="auto-harvest off"; }
+});
+/* EMIT TARGET — preset dropdown (thematic labels) with an optional CUSTOM entry.
+   Presets set TARGET directly; CUSTOM reveals the number field for a hand-picked
+   value. The 5-independent-domain floor (MINDOM) is unaffected either way. */
+const tgtBtn=document.getElementById("tgtbtn");
+const tgtMenu=document.getElementById("tgtmenu");
+const tgtInput=document.getElementById("tgtbits");
+const tgtUnit=document.getElementById("tgtunit");
+function openTgt(open){ tgtMenu.hidden=!open; tgtBtn.setAttribute("aria-expanded",open?"true":"false"); }
+function chooseTgt(v,label){
+  const custom=v==="custom";
+  for(const li of tgtMenu.children) li.setAttribute("aria-selected", li.dataset.v===v?"true":"false");
+  tgtBtn.textContent=label;
+  tgtInput.hidden=!custom; tgtUnit.hidden=!custom;
+  if(custom){ tgtInput.focus();
+    const n=parseInt(tgtInput.value,10); if(Number.isFinite(n)&&n>0){ TARGET=n; autoPrintIfReady(paintPool()); } }
+  else{ TARGET=parseInt(v,10); tgtInput.value=TARGET; autoPrintIfReady(paintPool()); }
+}
+tgtBtn.addEventListener("click",e=>{ e.stopPropagation(); openTgt(tgtMenu.hidden); });
+tgtMenu.addEventListener("click",e=>{ const li=e.target.closest("li"); if(!li) return;
+  openTgt(false); chooseTgt(li.dataset.v, li.textContent.trim()); });
+document.addEventListener("click",e=>{ if(!e.target.closest("#tgtbox")) openTgt(false); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") openTgt(false); });
+tgtInput.addEventListener("input",e=>{
+  const v=parseInt(e.target.value,10);
+  if(Number.isFinite(v)&&v>0){ TARGET=v; autoPrintIfReady(paintPool()); }
+});
+
+function resetPool(){
+  pool.buf=new Uint8Array(0); pool.domainBits={}; pool.lastHash={}; pool.seen={}; pool.events=[]; tapeLog.length=0; trLog.length=0; currentTranscript=null;
+  document.getElementById("transcriptbtn").hidden=true;
+  document.getElementById("tsout").hidden=true;
+  operatorTotal=0; if(typeof padbits!=="undefined") padbits.textContent="0 bits";
+  issTrail=[]; marks.length=0;
+  receipt.classList.remove("printed");
+  hexEl.textContent=""; printedVersion=-1; lastDrand=null; lastOut=null;
+  document.getElementById("fmtnote").hidden=true;
+  document.getElementById("rfresh").hidden=true;
+  for(const s of SOURCES) laneState(s.name,"","standby");
+  clearInterval(cdTimer); clearTimeout(autoTimer);
+  go.hidden=false; go.disabled=false;
+  again.hidden=true; again.disabled=false;
+  again.textContent="HARVEST ANOTHER ROUND"; again.style.removeProperty("--p");
+  paintPool(); scheduleMap();
+  if(autoHarvest) autoTimer=setTimeout(maybeAuto,600);   // keep streaming after a mode reset
+}
+
+/* ---------- phone mode: dock the SAME buttons into the fixed bottom bar ----------
+   The elements move between containers (listeners travel with them), so
+   desktop keeps its in-module controls and phones get a thumb-reach bar. */
+const phoneMq=matchMedia("(max-width:640px)");
+const actionbar=document.getElementById("actionbar");
+const outbody=document.querySelector(".outbody");
+function placeButtons(){
+  const target=phoneMq.matches?actionbar:outbody;
+  target.prepend(again); target.prepend(go);
+}
+phoneMq.addEventListener("change",placeButtons);
+placeButtons();
+
+/* ---------- operator pad: the ONLY private input ----------
+   Stroke coordinates + inter-sample timing never leave the device; they're
+   hashed straight into the pool. This is what remote APIs can never give
+   you: entropy an observer of public feeds cannot replay. */
+const pad=document.getElementById("pad"), px=pad.getContext("2d");
+const padbits=document.getElementById("padbits");
+let stroke=null, operatorTotal=0, padW=0, padH=0;
+/* size the canvas backing store to its actual displayed box (× DPR) and draw in
+   CSS pixels — otherwise the fixed 1060×230 bitmap gets stretched to whatever CSS
+   height the tier sets and the grid comes out uneven / faint at the top */
+function resizePad(){
+  const r=pad.getBoundingClientRect();
+  if(!r.width||!r.height) return;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  padW=r.width; padH=r.height;
+  pad.width=Math.round(padW*dpr); pad.height=Math.round(padH*dpr);
+  px.setTransform(dpr,0,0,dpr,0,0);   // draw in CSS px, crisp on retina
+  padGrid();
+}
+function padGrid(){
+  px.clearRect(0,0,padW,padH);
+  px.strokeStyle=HAIR; px.lineWidth=1;
+  const step=26;   // square cells at any display size; skip the x/y=0 edge line
+  for(let x=step;x<padW;x+=step){px.beginPath();px.moveTo(x,0);px.lineTo(x,padH);px.stroke();}
+  for(let y=step;y<padH;y+=step){px.beginPath();px.moveTo(0,y);px.lineTo(padW,y);px.stroke();}
+}
+resizePad();
+if("ResizeObserver" in window) new ResizeObserver(()=>{ if(!stroke) resizePad(); }).observe(pad);
+function padXY(ev){ const r=pad.getBoundingClientRect();
+  return [(ev.clientX-r.left)*padW/r.width,(ev.clientY-r.top)*padH/r.height]; }
+pad.addEventListener("pointerdown",ev=>{
+  ev.preventDefault(); pad.setPointerCapture(ev.pointerId);
+  // draw again quickly? kill any in-flight fade and reset to a clean grid,
+  // otherwise the fade's white overlays wash the new stroke grey and smear it
+  fadeGen++; if(fadeTimer){ clearTimeout(fadeTimer); fadeTimer=null; }
+  padGrid();
+  const [x,y]=padXY(ev);
+  stroke={digits:"",n:0,last:performance.now(),x,y};
+  px.strokeStyle=SIGNAL; px.lineWidth=2; px.lineCap="round"; px.lineJoin="round";
+  px.beginPath(); px.moveTo(x,y);
+});
+pad.addEventListener("pointermove",ev=>{
+  if(!stroke) return; ev.preventDefault();
+  const [x,y]=padXY(ev), now=performance.now(), dt=now-stroke.last;
+  stroke.digits+=tail(Math.round(x*97),2)+tail(Math.round(y*97),2)+tail(Math.round(dt*1e3),3);
+  stroke.n++; stroke.last=now;
+  px.lineTo(x,y); px.stroke();
+});
+async function endStroke(){
+  if(!stroke||stroke.n<4){ stroke=null; return; }
+  const bits=Math.min(stroke.n*1.5,80);
+  await absorb("operator","operator",stroke.digits+"|"+stroke.n,bits);
+  operatorTotal+=bits;
+  padbits.textContent=Math.round(operatorTotal)+" bits";
+  const ready=paintPool(); stroke=null;
+  padFade();
+  // completing (or extending, after a receipt already exists) the pool on the
+  // pad emits/re-emits immediately — every stroke, not just the first.
+  // NOTE: the pad only feeds the "operator" domain, so a pad-only pool still
+  // needs ≥5 independent domains from a harvest before it can ever be "ready".
+  await autoPrintIfReady(ready);
+}
+let fadeTimer=null, fadeGen=0;
+function padFade(step=0, gen=fadeGen){
+  if(gen!==fadeGen) return;                 // superseded by a new stroke — stop
+  if(reduceMotion||step>=7){ padGrid(); return; }
+  px.fillStyle="rgba(247,247,244,0.3)"; px.fillRect(0,0,padW,padH);
+  fadeTimer=setTimeout(()=>requestAnimationFrame(()=>padFade(step+1,gen)),45);
+}
+pad.addEventListener("pointerup",endStroke);
+pad.addEventListener("pointercancel",endStroke);
+
+/* ---------- power-on self-test ----------
+   Runs once per session (gate script under the overlay markup handles skips).
+   Every reported result is a check executed RIGHT NOW: the SHA-256 core is
+   verified against the FIPS 180-4 "abc" vector, the CSPRNG is probed, clock
+   jitter is sampled live, the registry counts come from SOURCES itself. Only
+   the reveal cadence is presentation. Any key or tap finishes immediately. */
+(function(){
+  const post=document.getElementById("post");
+  if(!post) return;
+  if(post.hidden){ post.remove(); return; }   // gated off before first paint
+  try{ sessionStorage.setItem("ef1-post","1"); }catch(e){}
+  const POST_STYLE="min";   // "min" = v2 single-verdict boot · "full" = v1 detailed checklist
+  if(POST_STYLE==="min") post.classList.add("min");
+  const pcv=document.getElementById("postcv"), pcx=pcv.getContext("2d");
+  let done=false; const timers=[];
+  const later=(fn,ms)=>{ const t=setTimeout(fn,ms); timers.push(t); return t; };
+  function finish(){
+    if(done) return; done=true;
+    for(const t of timers) clearTimeout(t);
+    window.removeEventListener("keydown",finish);
+    window.removeEventListener("pointerdown",finish);
+    post.classList.add("open");                              // case splits at the seam
+    document.documentElement.classList.remove("booting");    // rack stagger plays underneath
+    setTimeout(()=>post.remove(),620);
+  }
+  window.addEventListener("keydown",finish);
+  window.addEventListener("pointerdown",finish);
+  later(finish,6000);   // hard ceiling — the instrument must never hide behind its boot
+  (async()=>{
+    /* the checks (all real, all now) */
+    const vec=await sha256(enc.encode("abc"));
+    const vhex=[...vec].map(b=>b.toString(16).padStart(2,"0")).join("");
+    const shaOK=vhex==="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+    let rngOK=false; try{ crypto.getRandomValues(new Uint8Array(8)); rngOK=true; }catch(e){}
+    let ticks=0; { const t0=performance.now(); let prev=t0;   // distinct clock steps in a 3ms window
+      while(performance.now()-t0<3){ const t=performance.now(); if(t!==prev){ticks++;prev=t;} } }
+    const doms=new Set(SOURCES.map(s=>s.domain)).size;
+    const W=pcv.width,H=pcv.height,cw=W/16,ch=H/2;
+    pcx.strokeStyle=HAIR; pcx.lineWidth=1; pcx.strokeRect(.5,.5,W-1,H-1);
+    const cell=(b,i)=>{   // shade between module and ink by byte value — POOL cell language
+      const c=i%16,r=(i/16)|0,v=b/255;
+      pcx.fillStyle="rgb("+Math.round(247-224*v)+","+Math.round(247-222*v)+","+Math.round(244-217*v)+")";
+      pcx.fillRect(c*cw+1.5,r*ch+1.5,cw-3,ch-3); };
+    if(POST_STYLE==="min"){
+      /* v2: the checks above still ran — they just don't narrate. The live
+         digest fills the grid, one verdict prints, the case opens. */
+      vec.forEach((b,i)=>later(()=>cell(b,i),120+i*12));
+      later(()=>{ document.getElementById("poststat").innerHTML=
+        (shaOK&&rngOK)?"<b>SHA-256 · VERIFIED</b>":"FAULT"; },120+32*12+90);
+      later(finish,120+32*12+820);
+      return;
+    }
+    const rows=[
+      ["pl-sha", shaOK?"FIPS 180-4 VECTOR · PASS":"VECTOR MISMATCH · FAULT"],
+      ["pl-rng", rngOK?"OS SOURCE PRESENT":"UNAVAILABLE"],
+      ["pl-jit", ticks>0?ticks+" TICKS IN 3 MS":"COARSE CLOCK"],
+      ["pl-src", SOURCES.length+" LANES · "+doms+" DOMAINS"],
+      ["pl-pad", px?"2D SURFACE READY":"NO CONTEXT"],
+    ];
+    rows.forEach(([id,txt],i)=>later(()=>{
+      const el=document.getElementById(id); el.textContent=txt;
+      el.closest(".post-line").classList.add("on");
+    },140+i*150));
+    /* the verified digest fills a byte grid — same cell language as the POOL view */
+    const t0=140+rows.length*150+120;
+    vec.forEach((b,i)=>later(()=>cell(b,i),t0+i*16));
+    later(()=>{
+      const d=document.getElementById("postdigest");
+      d.textContent="CORE DIGEST "+vhex; d.classList.add("on");
+    },t0+32*16+60);
+    later(finish,t0+32*16+620);
+  })().catch(finish);
+})();
+</script>
+</body>
+</html>

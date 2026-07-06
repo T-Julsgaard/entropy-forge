@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "entropy-forge"
+version = "0.1.0"
+description = "Multi-API entropy harvester, randomness generator, and CSPRNG-backed BIP39 tool"
+requires-python = ">=3.11"
+dependencies = ["httpx>=0.27", "rich>=13"]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "hypothesis>=6", "mnemonic>=0.21"]
+
+[project.scripts]
+entropy-forge = "entropy_forge.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"entropy_forge.wallet" = ["wordlist_english.txt", "vectors.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
