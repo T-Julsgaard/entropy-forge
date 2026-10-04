@@ -50,9 +50,17 @@ def verify_transcript(path: str | Path) -> VerifyResult:
     fp = hashlib.sha256(buf).hexdigest()
     check("pool fingerprint", fp == t.get("fingerprint"), fp[:16] + "…")
 
+    try:
+        want = bytes.fromhex(t.get("output", ""))
+        if not want:
+            raise ValueError("output must contain at least one byte")
+        check("output bytes", True, f"{len(want)} bytes")
+    except (ValueError, TypeError) as exc:
+        check("output bytes", False, str(exc))
+        return VerifyResult(False, checks, t.get("mode", "?"))
+
     tag = (t.get("tag", "") + "\x00" + t.get("ctx", "")).encode()
     nonce = t.get("nonce", 0)
-    want = bytes.fromhex(t.get("output", ""))
     out, c = b"", 0
     while len(out) < len(want):
         out += hashlib.sha256(tag + buf + f":{nonce}:{c}".encode()).digest()
