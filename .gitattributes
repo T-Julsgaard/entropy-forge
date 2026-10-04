@@ -1,2 +1,4 @@
 * text=auto
 *.png binary
+# Preserve the exact bytes checked by the BIP39 wordlist SHA-256.
+src/entropy_forge/wallet/wordlist_english.txt text eol=lf

@@ -1,6 +1,9 @@
 """Format encodings: deterministic, in range, and web-parity on the stream."""
 import hashlib
 import re
+import uuid
+
+import pytest
 
 from entropy_forge.cli import format_output
 
@@ -17,6 +20,18 @@ def test_uuid_v4_bits():
         r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}",
         format_output(DATA, "uuid"),
     )
+
+
+@pytest.mark.parametrize("size", [0, 1, 6, 8, 15])
+def test_uuid_rejects_short_emissions(size):
+    with pytest.raises(ValueError, match="UUID output requires at least 16 bytes"):
+        format_output(DATA[:size], "uuid")
+
+
+def test_uuid_accepts_exactly_16_bytes():
+    result = uuid.UUID(format_output(DATA[:16], "uuid"))
+    assert result.version == 4
+    assert result.variant == uuid.RFC_4122
 
 
 def test_ranges():

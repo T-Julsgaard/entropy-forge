@@ -63,6 +63,8 @@ def format_output(data: bytes, fmt: str) -> str:
     if fmt == "base64":
         return base64.b64encode(data).decode()
     if fmt == "uuid":
+        if len(data) < 16:
+            raise ValueError("UUID output requires at least 16 bytes")
         b = bytearray(data[:16])
         b[6] = (b[6] & 0x0F) | 0x40
         b[8] = (b[8] & 0x3F) | 0x80
@@ -147,16 +149,23 @@ def cmd_verify(args) -> int:
     return 0 if r.ok else 1
 
 
+def _positive_int(value: str) -> int:
+    number = int(value)
+    if number <= 0:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return number
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="entropy-forge")
     sub = p.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("random", help="public-mode random bytes (NOT for keys/wallets)")
-    r.add_argument("--bytes", type=int, default=32)
+    r.add_argument("--bytes", type=_positive_int, default=32)
     r.add_argument("--base64", action="store_true", help="alias for --format base64")
     r.add_argument("--format", choices=["hex", "base64", "uuid", "int", "dice", "lotto"],
                    default="hex")
     r.add_argument("--offline", action="store_true", help="local jitter only")
-    r.add_argument("--max-rounds", type=int, default=5)
+    r.add_argument("--max-rounds", type=_positive_int, default=5)
     r.set_defaults(fn=cmd_random)
     s = sub.add_parser("seed", help="generate a 24-word BIP39 seed (CSPRNG-backed)")
     s.add_argument("--dice", action="store_true", help="mix in your own dice rolls")
@@ -168,6 +177,8 @@ def main(argv: list[str] | None = None) -> int:
     tv.add_argument("path")
     tv.set_defaults(fn=cmd_verify)
     args = p.parse_args(argv)
+    if args.cmd == "random" and not args.base64 and args.format == "uuid" and args.bytes < 16:
+        p.error("UUID output requires at least 16 bytes (--bytes 16 or greater)")
     return args.fn(args)
 
 
